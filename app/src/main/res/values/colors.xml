@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_smoke">#F3F3F3</color>
+
+<!--    <color name="black">#000028</color>-->
+    <color name="grey">#B2777777</color>
+
+    <!--    Primary colors (blue, orange, white) & their variants-->
+    <color name="white_clear">#FFFFFF</color>
+    <color name="white_smoked">#E6E6E6</color>
+    <color name="orange_light">#FFAE0D</color>
+    <color name="orange_dark">#FF6E35</color>
+    <color name="orange_dark_variant">#FF7A44</color>
+    <color name="blue_dark">#060C30</color>
+    <color name="blue_dark_2">#0A1349</color>
+    <color name="blue_dark_3">#0E1B6A</color>
+    <color name="blue_midnight">#0B1B7A</color>
+    <color name="blue_light">#2C86CF</color>
+    <color name="blue_light_2">#185F97</color>
+    <color name="blue_light_3">#E1F2FF</color>
+
+    <!--    Correct answer color (referenced by some games)-->
+<!--    <color name="teal_200">#FF03DAC5</color>-->
+</resources>

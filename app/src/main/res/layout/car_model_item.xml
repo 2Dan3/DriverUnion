@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/model_option_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="20dp"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginVertical="16sp">
+    <LinearLayout
+        android:background="@drawable/background_border_light"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1sp"
+        android:gravity="center">
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp">
+            <ImageView
+                android:id="@+id/iv_car_model"
+                android:layout_width="240sp"
+                android:layout_height="130sp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/car_default_filler"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_car_model_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="6"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:paddingHorizontal="10sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

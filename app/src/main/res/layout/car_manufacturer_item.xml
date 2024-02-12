@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manufacturer_option_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="30dp"
+    android:layout_marginVertical="10sp"
+    android:layout_marginHorizontal="60sp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0sp"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/iv_car_manufacturer_logo"
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:src="@mipmap/car_manufacturer_logo"/>
+        <TextView
+            android:id="@+id/tv_car_manufacturer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6sp"
+            android:textStyle="italic|bold"
+            android:text="mazda"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:paddingHorizontal="10sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
