@@ -52,7 +52,7 @@ public class CarModelSelectionFragment extends Fragment {
         this.adapter = new CarModelRecyclerAdapter(models);
 
         if (getArguments() != null) {
-            this.manufacturerName = getArguments().getString(MANUFACTURER).toLowerCase();
+            this.manufacturerName = getArguments().getString(MANUFACTURER);
         }
 
         getCarModels();

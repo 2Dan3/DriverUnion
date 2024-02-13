@@ -1,10 +1,12 @@
 package com.du.driverunison;
 
 import static com.du.driverunison.CarDetailedActivity.CHASSIS_SHAPE;
+import static com.du.driverunison.CarDetailedActivity.EXISTING_GEN_YEAR_SPANS;
 import static com.du.driverunison.CarDetailedActivity.HEIGHT;
 import static com.du.driverunison.CarDetailedActivity.LENGTH;
 import static com.du.driverunison.CarDetailedActivity.MAKER_NAME;
 import static com.du.driverunison.CarDetailedActivity.MODEL_NAME;
+import static com.du.driverunison.CarDetailedActivity.TRUNK_SIZE;
 import static com.du.driverunison.CarDetailedActivity.WHEELBASE;
 import static com.du.driverunison.CarDetailedActivity.WIDTH;
 import static com.du.driverunison.CarDetailedActivity.YEARS_OF_MANUFACTURE_RANGE;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChassisSelectionFragment extends Fragment {
@@ -130,12 +133,21 @@ public class ChassisSelectionFragment extends Fragment {
 //        Todo fix : temporary test values for "years", refactor when real years are chosen from UI
         String selectedManufactureYears = "M3".equals(modelName) ? "2007-2013" : "6".equals(modelName) ? "2018-" : "3".equals(modelName) ? "2019-2024" : "CX-60".equals(modelName) ? "2022-" : "X5 M".equals(modelName) ? "2023-" : "N/A";
 
-        DatabaseReference manufacturerModelRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturerName).child(modelName).child(selectedChassisShape).child(selectedManufactureYears).child("general specs");
-        manufacturerModelRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference gensRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturerName).child(modelName).child(selectedChassisShape);
+        gensRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<String> genYearSpans = new ArrayList<>();
+            CarGeneralSpecs carGeneralSpecs;
+
             @Override
-            public void onDataChange(@NonNull DataSnapshot carGeneralSpecsSnapshot) {
-                CarGeneralSpecs carGeneralSpecs = carGeneralSpecsSnapshot.getValue(CarGeneralSpecs.class);
-//                Toast.makeText(getActivity(), chassisShape, Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot carGensSnapshot) {
+                for (DataSnapshot carGenData : carGensSnapshot.getChildren()) {
+                    String genYearSpan = carGenData.getKey();
+                    genYearSpans.add(genYearSpan);
+
+//                    if (genYearSpan.equals(selectedManufactureYears))
+//                        carGeneralSpecs = carGenData.child("general specs").getValue(CarGeneralSpecs.class);
+                }
+                carGeneralSpecs = carGensSnapshot.child(selectedManufactureYears).child("general specs").getValue(CarGeneralSpecs.class);
 
                 getActivity().runOnUiThread(() -> {
                     Intent detailedCarViewIntent = new Intent(getActivity(), CarDetailedActivity.class);
@@ -149,6 +161,8 @@ public class ChassisSelectionFragment extends Fragment {
                     args.putString(MODEL_NAME, modelName);
                     args.putString(CHASSIS_SHAPE, selectedChassisShape);
                     args.putString(YEARS_OF_MANUFACTURE_RANGE, selectedManufactureYears);
+                    args.putString(TRUNK_SIZE, carGeneralSpecs.trunk);
+                    args.putStringArrayList(EXISTING_GEN_YEAR_SPANS, genYearSpans);
 
 //                    todo: Back button functionality - temporary workaround transaction
 //                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.car_view_container, CarManufacturerSelectionFragment.newInstance()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN).commit();

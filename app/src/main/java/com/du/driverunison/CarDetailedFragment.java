@@ -49,14 +49,14 @@ public class CarDetailedFragment extends Fragment {
     public static CarDetailedFragment newInstance(String carLength, String carWidth, String carWheelbase, String carHeight, String carMakerName, String carModelName, String carChassisShape, String carYearSpanManufactured, String carTrunkSize) {
         CarDetailedFragment fragment = new CarDetailedFragment();
         Bundle args = new Bundle();
-        args.putString(LENGTH, carLength);
-        args.putString(WIDTH, carWidth);
-        args.putString(WHEELBASE, carWheelbase);
-        args.putString(HEIGHT, carHeight);
         args.putString(MAKER_NAME, carMakerName);
         args.putString(MODEL_NAME, carModelName);
         args.putString(CHASSIS_SHAPE, carChassisShape);
         args.putString(YEARS_OF_MANUFACTURE_RANGE, carYearSpanManufactured);
+        args.putString(LENGTH, carLength);
+        args.putString(WIDTH, carWidth);
+        args.putString(WHEELBASE, carWheelbase);
+        args.putString(HEIGHT, carHeight);
         args.putString(TRUNK_SIZE, carTrunkSize);
         fragment.setArguments(args);
         return fragment;
@@ -67,14 +67,14 @@ public class CarDetailedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         final Bundle args = getArguments();
         if (args != null) {
-            this.length = args.getString(LENGTH, "N/A");
-            this.width = args.getString(WIDTH, "N/A");
-            this.wheelbase = args.getString(WHEELBASE, "N/A");
-            this.height = args.getString(HEIGHT, "N/A");
             this.makerName = args.getString(MAKER_NAME, "N/A");
             this.modelName = args.getString(MODEL_NAME, "N/A");
             this.chassisShape = args.getString(CHASSIS_SHAPE, "N/A");
             this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
+            this.length = args.getString(LENGTH, "N/A");
+            this.width = args.getString(WIDTH, "N/A");
+            this.wheelbase = args.getString(WHEELBASE, "N/A");
+            this.height = args.getString(HEIGHT, "N/A");
             this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
         }
     }
