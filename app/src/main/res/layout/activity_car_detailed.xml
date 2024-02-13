@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="220sp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/car_default_filler"
+                    android:src="@mipmap/car_default_filler4"
                     app:layout_collapseMode="parallax"/>
 
     <!--            <androidx.appcompat.widget.Toolbar-->

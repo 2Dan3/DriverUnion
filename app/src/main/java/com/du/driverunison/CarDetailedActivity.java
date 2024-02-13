@@ -103,7 +103,7 @@ public class CarDetailedActivity extends AppCompatActivity {
             case "3":
                 imgRes = R.mipmap.car_default_filler3;
                 break;
-            case "cx60":
+            case "CX-60":
                 imgRes = R.mipmap.car_default_filler4;
                 break;
             case "X5 M":
@@ -112,19 +112,6 @@ public class CarDetailedActivity extends AppCompatActivity {
             default:
                 imgRes = R.mipmap.car_coupe_shape;
         }
-//        if ("M3".equals(this.modelName))
-//            imgRes = R.mipmap.car_default_filler2;
-//        else if ("6".equals(this.modelName))
-//            imgRes = R.mipmap.car_default_filler;
-//        else if ("cx60".equals(this.modelName))
-//            imgRes = R.mipmap.car_default_filler4;
-//        else if ("3".equals(this.modelName))
-//            imgRes = R.mipmap.car_default_filler3;
-//        else if ("X5 M".equals(this.modelName))
-//            imgRes = R.mipmap.car_default_filler5;
-//        else
-//            imgRes = R.mipmap.car_coupe_shape;
-
         binding.detailedModelIv.setImageResource(imgRes);
 
         loadMotorizationSpecs();

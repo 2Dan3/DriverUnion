@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6sp"
             android:textStyle="italic|bold"
-            android:text="mazda"
+            android:text="Mazda"
             android:textAllCaps="true"
             android:textSize="16sp"
             android:paddingHorizontal="10sp"

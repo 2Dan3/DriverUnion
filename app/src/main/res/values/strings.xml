@@ -53,13 +53,14 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="detailed_model_name_filler">Mazda 6</string>
-    <string name="detailed_model_years_filler">2018-2025</string>
-    <string name="detailed_model_length_filler">4895 mm</string>
-    <string name="detailed_model_width_filler">1840 mm</string>
-    <string name="detailed_model_height_filler">1450 mm</string>
-    <string name="detailed_model_wheelbase_filler">2830 mm</string>
+    <string name="detailed_model_name_filler">Mazda CX-60</string>
+    <string name="detailed_model_years_filler">2022-2026</string>
+    <string name="detailed_model_length_filler">4745 mm</string>
+    <string name="detailed_model_width_filler">1890 mm</string>
+    <string name="detailed_model_height_filler">1682 mm</string>
+    <string name="detailed_model_wheelbase_filler">2870 mm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_car_manufacturers">CarManufacturersActivity</string>
+    <string name="detailed_model_trunk_filler">477 - 1726 L</string>
 </resources>
