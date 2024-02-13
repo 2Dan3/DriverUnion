@@ -129,7 +129,7 @@ public class ChassisSelectionFragment extends Fragment {
 
         final ArrayList<String> chassisShapesAvailable = new ArrayList<>();
 //        Todo fix : temporary test values for "years", refactor when real years are chosen from UI
-        String selectedManufactureYears = "M3".equals(modelName) ? "2007-2013" : "6".equals(modelName) ? "2018-" : "2019-";
+        String selectedManufactureYears = "M3".equals(modelName) ? "2007-2013" : "6".equals(modelName) ? "2018-" : "3".equals(modelName) ? "2019-2024" : "cx60".equals(modelName) ? "2022-" : "X5 M".equals(modelName) ? "2023-" : "N/A";
 
         DatabaseReference manufacturerModelRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturerName).child(modelName).child(selectedChassisShape).child(selectedManufactureYears).child("general specs");
         manufacturerModelRef.addListenerForSingleValueEvent(new ValueEventListener() {

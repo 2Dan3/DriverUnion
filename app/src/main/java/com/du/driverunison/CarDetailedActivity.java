@@ -84,10 +84,17 @@ public class CarDetailedActivity extends AppCompatActivity {
         int imgRes;
         if ("BMW M3".equalsIgnoreCase(this.makerAndModelName))
             imgRes = R.mipmap.car_default_filler2;
-        else if ("Mazda 3".equalsIgnoreCase(this.makerAndModelName))
-            imgRes = R.mipmap.car_coupe_shape;
-        else
+        else if ("Mazda 6".equalsIgnoreCase(this.makerAndModelName))
             imgRes = R.mipmap.car_default_filler;
+        else if ("Mazda cx60".equalsIgnoreCase(this.makerAndModelName))
+            imgRes = R.mipmap.car_default_filler4;
+        else if ("Mazda 3".equalsIgnoreCase(this.makerAndModelName))
+            imgRes = R.mipmap.car_default_filler3;
+        else if ("BMW X5 M".equalsIgnoreCase(this.makerAndModelName))
+            imgRes = R.mipmap.car_default_filler5;
+        else
+            imgRes = R.mipmap.car_coupe_shape;
+
         binding.detailedModelIv.setImageResource(imgRes);
 
         loadAndShowMotorizationSpecs();
