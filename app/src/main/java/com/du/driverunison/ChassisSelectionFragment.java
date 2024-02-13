@@ -3,7 +3,8 @@ package com.du.driverunison;
 import static com.du.driverunison.CarDetailedActivity.CHASSIS_SHAPE;
 import static com.du.driverunison.CarDetailedActivity.HEIGHT;
 import static com.du.driverunison.CarDetailedActivity.LENGTH;
-import static com.du.driverunison.CarDetailedActivity.MAKER_AND_MODEL_NAME;
+import static com.du.driverunison.CarDetailedActivity.MAKER_NAME;
+import static com.du.driverunison.CarDetailedActivity.MODEL_NAME;
 import static com.du.driverunison.CarDetailedActivity.WHEELBASE;
 import static com.du.driverunison.CarDetailedActivity.WIDTH;
 import static com.du.driverunison.CarDetailedActivity.YEARS_OF_MANUFACTURE_RANGE;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.du.driverunison.model.CarGeneralSpecs;
-import com.du.driverunison.util.CarManufacturerRecyclerAdapter;
 import com.du.driverunison.util.ChassisOptionRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -146,7 +145,8 @@ public class ChassisSelectionFragment extends Fragment {
                     args.putString(WIDTH, carGeneralSpecs.width);
                     args.putString(HEIGHT, carGeneralSpecs.height);
                     args.putString(WHEELBASE, carGeneralSpecs.wheelbase);
-                    args.putString(MAKER_AND_MODEL_NAME, String.format("%s %s", manufacturerName, modelName));
+                    args.putString(MAKER_NAME, manufacturerName);
+                    args.putString(MODEL_NAME, modelName);
                     args.putString(CHASSIS_SHAPE, selectedChassisShape);
                     args.putString(YEARS_OF_MANUFACTURE_RANGE, selectedManufactureYears);
 

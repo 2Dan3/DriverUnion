@@ -17,6 +17,7 @@ import com.du.driverunison.model.Motorization;
 import java.util.ArrayList;
 
 public class CarSpecMotorizationRecyclerAdapter extends RecyclerView.Adapter<CarSpecMotorizationRecyclerAdapter.ViewHolder> {
+//    private static final int MAX_CHARS_FOR_SPEC_NAME = 80;
     private ArrayList<Motorization> motorizations;
     private View.OnClickListener mClickListener;
     public void setClickListener(View.OnClickListener itemClickListener) {
@@ -68,7 +69,11 @@ public class CarSpecMotorizationRecyclerAdapter extends RecyclerView.Adapter<Car
         }
 
         public void embedData(Motorization loadingMotorization, int position){
-            tvMotorSpecName.setText(loadingMotorization.getName());
+            String fullSpecName = String.format("%s (%s)", loadingMotorization.getName(), loadingMotorization.getTransmission());
+//            if (fullSpecName.length() > MAX_CHARS_FOR_SPEC_NAME + 5)
+//                fullSpecName = fullSpecName.substring(0, MAX_CHARS_FOR_SPEC_NAME) + " ...";
+
+            tvMotorSpecName.setText(fullSpecName);
             ivMotorSpec.setImageResource(loadingMotorization.getPhoto());
         }
     }

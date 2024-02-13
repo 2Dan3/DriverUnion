@@ -2,34 +2,40 @@
 <androidx.cardview.widget.CardView
     android:id="@+id/motor_spec_option_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginVertical="5sp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="30dp"
     android:layout_gravity="center_horizontal">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@drawable/background_gradient_light"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_car_motor_spec"
             android:layout_width="100sp"
             android:layout_height="70sp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/engine_i6"/>
+            android:src="@mipmap/engine_i6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
         <TextView
             android:id="@+id/tv_car_motor_spec_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="6sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10sp"
             android:textStyle="italic|bold"
-            android:text="3,3 e-Skyactiv D (254HP) Mild Hybrid AWD Automatic"
-            android:textAllCaps="true"
+            android:text="3,3 e-Skyactiv D ( 254 Hp ) Mild Hybrid AWD Automatic (automatic)"
             android:textSize="12sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/iv_car_motor_spec"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -3,6 +3,7 @@ package com.du.driverunison.model;
 import com.du.driverunison.R;
 
 public class Motorization {
+    private String transmission;
     private String name;
     private int photo;
     public Motorization(){}
@@ -10,8 +11,9 @@ public class Motorization {
         this.name = name;
         this.photo = photo;
     }
-    public Motorization(String name, String layout) {
+    public Motorization(String name, String layout, String transmission) {
         this.name = name;
+        this.transmission = transmission;
         //    todo temporary predefined custom engine layouts photo display
         switch (layout){
             case "i3":
@@ -60,5 +62,11 @@ public class Motorization {
     }
     public void setPhoto(int photo) {
         this.photo = photo;
+    }
+    public String getTransmission(){
+        return transmission;
+    }
+    public void setTransmission(String transmission){
+        this.transmission = transmission;
     }
 }
