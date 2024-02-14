@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
-        app:cardBackgroundColor="@color/white_smoked"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_car_detailed"

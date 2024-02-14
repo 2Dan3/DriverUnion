@@ -10,7 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5.5"
+        android:layout_weight="1"
+        app:cardElevation="12sp"
         app:cardCornerRadius="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="5dp">
@@ -68,7 +69,8 @@
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="9.5"
+    android:layout_weight="1.5"
+    android:elevation="8dp"
     app:cardCornerRadius="20dp"
     android:layout_marginHorizontal="8sp"
     android:layout_marginVertical="10sp">
@@ -76,11 +78,13 @@
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-    <LinearLayout
-        android:background="@drawable/background_border_light"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fadeScrollbars="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="10sp">
 
@@ -184,7 +188,7 @@
                 android:id="@+id/detailed_model_wheelbase"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".005"
+                android:layout_weight=".008"
                 android:textStyle="bold"
                 android:gravity="end"
                 android:text=""/>
@@ -219,13 +223,8 @@
                 android:text=""/>
 
         </LinearLayout>
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".1"
-            android:layout_margin="8dp"
-            android:background="?android:attr/listDivider" />
+
+
 
         <!--                    <TextView-->
         <!--                        android:layout_width="match_parent"-->
@@ -236,22 +235,76 @@
 
 
     </LinearLayout>
+    </ScrollView>
 <!--</androidx.core.widget.NestedScrollView>-->
-</androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        android:layout_marginHorizontal="8sp">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_motor_specs_car_detailed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8sp"
-            tools:listitem="@layout/car_motor_spec_item"/>
     </androidx.cardview.widget.CardView>
 
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="15dp"
+        app:cardElevation="4dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_hood"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="6dp"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/card_info"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageButton
+                    android:id="@+id/btn_show_engines"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_car_engine"/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_info"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="6dp"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toEndOf="@id/card_hood"
+                app:layout_constraintEnd_toStartOf="@id/card_sellers"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageButton
+                    android:id="@+id/btn_show_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_car_info"/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_sellers"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="6dp"
+                app:cardElevation="6dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintStart_toEndOf="@id/card_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageButton
+                    android:id="@+id/btn_show_sellers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_car_key"/>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

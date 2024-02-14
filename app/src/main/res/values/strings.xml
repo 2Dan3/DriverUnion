@@ -10,7 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="title_activity_car_detailed">Specification</string>
+    <string name="title_activity_car_detailed">Overview</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -61,6 +61,8 @@
     <string name="detailed_model_wheelbase_filler">2870 mm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_car_manufacturers">CarManufacturersActivity</string>
+    <string name="title_activity_car_manufacturers">Choose a car:</string>
     <string name="detailed_model_trunk_filler">477 - 1726 L</string>
+    <string name="engine_manual">Manual</string>
+    <string name="engine_automatic">Automatic</string>
 </resources>

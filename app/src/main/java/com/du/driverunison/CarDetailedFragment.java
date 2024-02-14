@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,7 @@ public class CarDetailedFragment extends Fragment {
     private String yearsRange;
     private CarSpecMotorizationRecyclerAdapter adapter;
     private CarGeneralSpecs carGeneralSpecs;
+    private DialogEngines dialogEngines;
 
     public CarDetailedFragment() {}
 
@@ -82,6 +84,13 @@ public class CarDetailedFragment extends Fragment {
         }
     }
 
+    private void setupOnClickListeners(View v) {
+        ((ImageButton)v.findViewById(R.id.btn_show_engines)).setOnClickListener(this::onClickShowEngines);
+        //      TODO
+        //         ...
+
+    }
+
     private void loadModelGeneralSpecs() {
         DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("general specs");
         fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,6 +115,7 @@ public class CarDetailedFragment extends Fragment {
 //        setupUI(v);
         ((TextView)v.findViewById(R.id.detailed_model_years)).setText(yearsRange);
         ((TextView) v.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
+        setupOnClickListeners(v);
 
         return v;
     }
@@ -169,42 +179,12 @@ public class CarDetailedFragment extends Fragment {
             ((TextView)getActivity().findViewById(R.id.detailed_model_wheelbase)).setText(carGeneralSpecs.wheelbase);
             ((TextView)getActivity().findViewById(R.id.detailed_model_trunk)).setText(carGeneralSpecs.trunk);
         }
-
-        loadMotorizationSpecs(view);
     }
 
-    private void loadMotorizationSpecs(View view) {
-        ArrayList<Motorization> motorizations = new ArrayList<>();
+    private void onClickShowEngines(View v) {
+        if (dialogEngines == null)
+            dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
 
-        DatabaseReference enginesRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("engines");
-        enginesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot transmissionType) {
-                for (DataSnapshot transmissionEnginesAvailable : transmissionType.getChildren()) {
-//                    Toast.makeText(CarDetailedActivity.this, transmissionData.toString(), Toast.LENGTH_SHORT).show();
-                    String transmission = transmissionEnginesAvailable.getKey();
-//                    if (engineBasicData.exists()) {
-                    for (DataSnapshot engine: transmissionEnginesAvailable.getChildren()){
-                        String name = engine.getKey();
-                        String layout = engine.getValue(String.class);
-                        Motorization motorSpec = new Motorization(name, layout, transmission);
-                        motorizations.add(motorSpec);
-                    }
-//                    }
-                }
-                showMotorizationSpecs(view);
-            }
-            private void showMotorizationSpecs(View view) {
-                RecyclerView recyclerView = view.findViewById(R.id.recycler_motor_specs_car_detailed);
-                adapter = new CarSpecMotorizationRecyclerAdapter(motorizations);
-                //Todo
-                // adapter.setClickListener(this::onItemClick);
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                recyclerView.setAdapter(adapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+        dialogEngines.show();
     }
 }
