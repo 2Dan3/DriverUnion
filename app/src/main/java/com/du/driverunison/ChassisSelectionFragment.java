@@ -2,13 +2,8 @@ package com.du.driverunison;
 
 import static com.du.driverunison.CarDetailedActivity.CHASSIS_SHAPE;
 import static com.du.driverunison.CarDetailedActivity.EXISTING_GEN_YEAR_SPANS;
-import static com.du.driverunison.CarDetailedActivity.HEIGHT;
-import static com.du.driverunison.CarDetailedActivity.LENGTH;
 import static com.du.driverunison.CarDetailedActivity.MAKER_NAME;
 import static com.du.driverunison.CarDetailedActivity.MODEL_NAME;
-import static com.du.driverunison.CarDetailedActivity.TRUNK_SIZE;
-import static com.du.driverunison.CarDetailedActivity.WHEELBASE;
-import static com.du.driverunison.CarDetailedActivity.WIDTH;
 import static com.du.driverunison.CarDetailedActivity.YEARS_OF_MANUFACTURE_RANGE;
 
 import android.content.Intent;
@@ -143,25 +138,25 @@ public class ChassisSelectionFragment extends Fragment {
                 for (DataSnapshot carGenData : carGensSnapshot.getChildren()) {
                     String genYearSpan = carGenData.getKey();
                     genYearSpans.add(genYearSpan);
-
+//              ignore : old if code
 //                    if (genYearSpan.equals(selectedManufactureYears))
 //                        carGeneralSpecs = carGenData.child("general specs").getValue(CarGeneralSpecs.class);
                 }
-                carGeneralSpecs = carGensSnapshot.child(selectedManufactureYears).child("general specs").getValue(CarGeneralSpecs.class);
+//                carGeneralSpecs = carGensSnapshot.child(selectedManufactureYears).child("general specs").getValue(CarGeneralSpecs.class);
 
                 getActivity().runOnUiThread(() -> {
                     Intent detailedCarViewIntent = new Intent(getActivity(), CarDetailedActivity.class);
                     Bundle args = new Bundle();
 
-                    args.putString(LENGTH, carGeneralSpecs.length);
-                    args.putString(WIDTH, carGeneralSpecs.width);
-                    args.putString(HEIGHT, carGeneralSpecs.height);
-                    args.putString(WHEELBASE, carGeneralSpecs.wheelbase);
                     args.putString(MAKER_NAME, manufacturerName);
                     args.putString(MODEL_NAME, modelName);
                     args.putString(CHASSIS_SHAPE, selectedChassisShape);
                     args.putString(YEARS_OF_MANUFACTURE_RANGE, selectedManufactureYears);
-                    args.putString(TRUNK_SIZE, carGeneralSpecs.trunk);
+//                    args.putString(LENGTH, carGeneralSpecs.length);
+//                    args.putString(WIDTH, carGeneralSpecs.width);
+//                    args.putString(HEIGHT, carGeneralSpecs.height);
+//                    args.putString(WHEELBASE, carGeneralSpecs.wheelbase);
+//                    args.putString(TRUNK_SIZE, carGeneralSpecs.trunk);
                     args.putStringArrayList(EXISTING_GEN_YEAR_SPANS, genYearSpans);
 
 //                    todo: Back button functionality - temporary workaround transaction

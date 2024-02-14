@@ -12,6 +12,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.du.driverunison.databinding.ActivityCarDetailedBinding;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
@@ -19,26 +21,26 @@ public class CarDetailedActivity extends FragmentActivity {
 
 //    private AppBarConfiguration appBarConfiguration;
     private ActivityCarDetailedBinding binding;
-    public static final String LENGTH = "length";
-    public static final String WIDTH = "width";
-    public static final String HEIGHT = "height";
-    public static final String WHEELBASE = "wheelbase";
+//    public static final String LENGTH = "length";
+//    public static final String WIDTH = "width";
+//    public static final String HEIGHT = "height";
+//    public static final String WHEELBASE = "wheelbase";
+//    public static final String TRUNK_SIZE = "trunk";
     public static final String MAKER_NAME = "maker_name";
     public static final String MODEL_NAME = "model_name";
     public static final String CHASSIS_SHAPE = "chassis_shape";
     public static final String YEARS_OF_MANUFACTURE_RANGE = "years";
-    public static final String TRUNK_SIZE = "trunk";
     public static final String EXISTING_GEN_YEAR_SPANS = "gens";
 
-    private String length;
-    private String width;
-    private String height;
-    private String wheelbase;
+//    private String length;
+//    private String width;
+//    private String height;
+//    private String wheelbase;
+//    private String trunkSize;
     private String makerName;
     private String modelName;
     private String chassisShape;
     private String yearsRange;
-    private String trunkSize;
     private ArrayList<String> existingGenYearSpans;
     private CarSpecMotorizationRecyclerAdapter adapter;
     private ViewPager2 viewPager;
@@ -54,16 +56,16 @@ public class CarDetailedActivity extends FragmentActivity {
 //        setSupportActionBar(binding.toolbar);
 
         final Bundle args = getIntent().getExtras();
-        this.length = args.getString(LENGTH, "N/A");
-        this.width = args.getString(WIDTH, "N/A");
-        this.wheelbase = args.getString(WHEELBASE, "N/A");
-        this.height = args.getString(HEIGHT, "N/A");
         this.makerName = args.getString(MAKER_NAME, "N/A");
         this.modelName = args.getString(MODEL_NAME, "N/A");
         this.chassisShape = args.getString(CHASSIS_SHAPE, "N/A");
         this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
-        this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
         this.existingGenYearSpans = args.getStringArrayList(EXISTING_GEN_YEAR_SPANS);
+//        this.length = args.getString(LENGTH, "N/A");
+//        this.width = args.getString(WIDTH, "N/A");
+//        this.wheelbase = args.getString(WHEELBASE, "N/A");
+//        this.height = args.getString(HEIGHT, "N/A");
+//        this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
 
 //        setupUI();
 
@@ -79,19 +81,28 @@ public class CarDetailedActivity extends FragmentActivity {
         viewPager = binding.pagerCarDetailed;
         pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = binding.tabLayoutCarDetailed;
+//        tabLayout.setupWithViewPager(viewPager);
+        TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+
+        });
+        tlm.attach();
+
+//        Initially the newest gen of model is displayed
+        viewPager.setCurrentItem(existingGenYearSpans.size() - 1, false);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (viewPager.getCurrentItem() == 0) {
+//            // If the user is currently looking at the first step, allow the system to handle the
+//            // Back button. This calls finish() on this activity and pops the back stack.
+//            super.onBackPressed();
+//        } else {
+//            // Otherwise, select the previous step.
+//            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+//        }
+//    }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         public ScreenSlidePagerAdapter(FragmentActivity fa) {
@@ -101,7 +112,7 @@ public class CarDetailedActivity extends FragmentActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            return CarDetailedFragment.newInstance(length, width, wheelbase, height, makerName, modelName, chassisShape, yearsRange, trunkSize);
+            return CarDetailedFragment.newInstance(makerName, modelName, chassisShape, existingGenYearSpans.get(position));
         }
 
         @Override

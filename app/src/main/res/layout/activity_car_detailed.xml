@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.viewpager2.widget.ViewPager2 xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager_car_detailed"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarDetailedActivity" />
+    tools:context=".CarDetailedActivity">
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager_car_detailed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="ltr"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        app:cardBackgroundColor="@color/white_smoked"
+        app:cardCornerRadius="20dp">
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_car_detailed"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="top"
+            app:tabBackground="@drawable/tab_pager_selector"
+            app:tabGravity="center"
+            android:background="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabPaddingEnd="10dp"
+            app:tabPaddingStart="10dp"/>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
