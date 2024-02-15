@@ -1,11 +1,12 @@
 package com.du.driverunison;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.du.driverunison.model.CarGeneralSpecs;
-import com.du.driverunison.model.Motorization;
 import com.du.driverunison.util.CarSpecMotorizationRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class CarDetailedFragment extends Fragment {
 //    public static final String LENGTH = "length";
@@ -85,10 +83,9 @@ public class CarDetailedFragment extends Fragment {
     }
 
     private void setupOnClickListeners(View v) {
-        ((ImageButton)v.findViewById(R.id.btn_show_engines)).setOnClickListener(this::onClickShowEngines);
-        //      TODO
-        //         ...
-
+        v.findViewById(R.id.btn_show_engines).setOnClickListener(this::makePopup);
+//        v.findViewById(R.id.btn_show_info).setOnClickListener(this::makePopup);
+        v.findViewById(R.id.btn_show_shopping).setOnClickListener(this::makePopup);
     }
 
     private void loadModelGeneralSpecs() {
@@ -186,5 +183,60 @@ public class CarDetailedFragment extends Fragment {
             dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
 
         dialogEngines.show();
+    }
+    private void makePopup(View v/* ,Car selectedCar, int modelPosition*/) {
+        int menuToBeDisplayedID = 0;
+        if (v.getId() == R.id.btn_show_engines)
+            menuToBeDisplayedID = R.menu.car_parts_menu;
+        else if (v.getId() == R.id.btn_show_info) {
+            menuToBeDisplayedID = R.menu.car_info;
+        } else if (v.getId() == R.id.btn_show_shopping) {
+            menuToBeDisplayedID = R.menu.car_shop;
+        }
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.getMenuInflater().inflate(menuToBeDisplayedID, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    if (menuItem.getItemId() == R.id.item_powertrains)
+                        onClickShowEngines(v);
+//                    else if (menuItem.getItemId() == R.id.item_problems)
+//                        onClickShowCommonProblems(v);
+//                    else if (menuItem.getItemId() == R.id.item_discussions)
+//                        toForums();
+                    else if (menuItem.getItemId() == R.id.item_car_parts)
+                        toCarPartsSeller();
+                    else if (menuItem.getItemId() == R.id.item_cars_used)
+                        toUsedCarsSeller();
+                    else if (menuItem.getItemId() == R.id.item_cars_new)
+                        toNewCarsSeller();
+                    return true;
+                }
+        );
+//        popupMenu.setForceShowIcon(true);
+        popupMenu.show();
+    }
+
+    private void toCarPartsSeller() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.prodajadelova.rs"));
+        startActivity(browserIntent);
+    }
+
+    private void toUsedCarsSeller() {
+        final String URL_ENCODING_FILL = "%5";
+        String[] startEndYears = yearsRange.split("-");
+        String yearFrom = startEndYears[0].trim();
+        String yearTo = startEndYears.length == 2 ? yearsRange.split("-")[1].trim() : "";
+        String websiteURL = String.format("https://www.polovniautomobili.com/auto-oglasi/pretraga?brand=%s&model%sB%sD=%s&price_to=&year_from=%s&year_to=%s&chassis%sB%sD=&showOldNew=all&submit_1=&without_price=1", makerName.toLowerCase(), URL_ENCODING_FILL, URL_ENCODING_FILL, modelName.replace(" ", "-").toLowerCase(), yearFrom, yearTo, URL_ENCODING_FILL, URL_ENCODING_FILL);
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteURL));
+        startActivity(browserIntent);
+    }
+
+    private void toNewCarsSeller() {
+//        TODO change when real Official distributer URL loading is implemented
+        String websiteURL = makerName.equals("Mazda") ? "http://www.mazda.rs" : "http://www.bmw.rs";
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteURL));
+        startActivity(browserIntent);
     }
 }

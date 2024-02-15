@@ -4,28 +4,18 @@ import android.os.Bundle;
 
 import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.util.CarManufacturerRecyclerAdapter;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.driverunison.databinding.ActivityCarManufacturersBinding;
 
 import java.util.ArrayList;
 
-public class CarManufacturersActivity extends AppCompatActivity {
+public class CarsActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityCarManufacturersBinding binding;

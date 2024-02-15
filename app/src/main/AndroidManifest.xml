@@ -21,7 +21,7 @@
 <!--            </intent-filter>-->
         </activity>
         <activity
-            android:name=".CarManufacturersActivity"
+            android:name=".CarsActivity"
             android:exported="false"
             android:label="@string/title_activity_car_manufacturers"
             android:theme="@style/Theme.DriverUnison" />

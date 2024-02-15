@@ -2,7 +2,6 @@ package com.du.driverunison;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        startActivity(new Intent(MainActivity.this, CarManufacturersActivity.class));
+        startActivity(new Intent(MainActivity.this, CarsActivity.class));
     }
 
     @Override
