@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CarDetailedActivity">
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager_car_detailed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="ltr"/>
+        android:layoutDirection="ltr" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +19,26 @@
         app:cardElevation="4dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:id="@+id/prev_gen_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="20dp"
+                android:src="@drawable/triangle"/>
+            <TextView
+                android:id="@+id/tv_prev_gen"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginStart="5sp"
+                android:layout_marginVertical="1sp"
+                android:textColor="@color/black_transparent"
+                android:text="2010-2013"/>
+        </LinearLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_car_detailed"
             android:layout_width="match_parent"
@@ -28,5 +50,25 @@
             app:tabIndicatorHeight="0dp"
             app:tabPaddingEnd="10dp"
             app:tabPaddingStart="10dp"/>
+        <LinearLayout
+            android:id="@+id/next_gen_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end">
+            <TextView
+                android:id="@+id/tv_next_gen"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="5sp"
+                android:layout_marginVertical="1sp"
+                android:textColor="@color/black_transparent"
+                android:text="2019-2023"/>
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="20dp"
+                android:src="@drawable/triangle"
+                android:rotation="180"/>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

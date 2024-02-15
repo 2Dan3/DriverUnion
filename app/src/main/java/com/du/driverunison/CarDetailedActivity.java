@@ -1,6 +1,9 @@
 package com.du.driverunison;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.du.driverunison.util.CarSpecMotorizationRecyclerAdapter;
 
@@ -45,6 +48,10 @@ public class CarDetailedActivity extends FragmentActivity {
     private CarSpecMotorizationRecyclerAdapter adapter;
     private ViewPager2 viewPager;
     private ScreenSlidePagerAdapter pagerAdapter;
+    private TextView tvPrevGen;
+    private TextView tvNextGen;
+    private LinearLayout layoutPrevGen;
+    private LinearLayout layoutNextGen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +84,48 @@ public class CarDetailedActivity extends FragmentActivity {
 //                .setAnchorView(R.id.fab)
 //                .setAction("Action", null).show());
 
+        tvPrevGen = binding.tvPrevGen;
+        tvNextGen = binding.tvNextGen;
+        layoutPrevGen = binding.prevGenLayout;
+        layoutNextGen = binding.nextGenLayout;
+        if (existingGenYearSpans.size() > 1)
+            tvPrevGen.setText(existingGenYearSpans.get(existingGenYearSpans.size()-2));
+        else {
+            tvPrevGen.setText("No older models");
+            layoutNextGen.setVisibility(View.INVISIBLE);
+        }
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = binding.pagerCarDetailed;
         pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (existingGenYearSpans.size() > 1){
+                    if (position == 0){
+                        layoutPrevGen.setVisibility(View.INVISIBLE);
+                        tvNextGen.setText(existingGenYearSpans.get(position + 1));
+                    } else if (position == existingGenYearSpans.size() - 1) {
+                        layoutNextGen.setVisibility(View.INVISIBLE);
+                        tvPrevGen.setText(existingGenYearSpans.get(position - 1));
+                    }else {
+                        layoutPrevGen.setVisibility(View.VISIBLE);
+                        tvPrevGen.setText(existingGenYearSpans.get(position - 1));
+                        layoutNextGen.setVisibility(View.VISIBLE);
+                        tvNextGen.setText(existingGenYearSpans.get(position + 1));
+                    }
+                }
+            }
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
         TabLayout tabLayout = binding.tabLayoutCarDetailed;
 //        tabLayout.setupWithViewPager(viewPager);
         TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
