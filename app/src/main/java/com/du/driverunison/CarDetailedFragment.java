@@ -242,7 +242,7 @@ public class CarDetailedFragment extends Fragment {
         String[] startEndYears = yearsRange.split("-");
         String yearFrom = startEndYears[0].trim();
         String yearTo = startEndYears.length == 2 ? yearsRange.split("-")[1].trim() : "";
-        String websiteURL = String.format("https://www.polovniautomobili.com/auto-oglasi/pretraga?brand=%s&model%sB%sD=%s&price_to=&year_from=%s&year_to=%s&chassis%sB%sD=&showOldNew=all&submit_1=&without_price=1", makerName.toLowerCase(), URL_ENCODING_FILL, URL_ENCODING_FILL, modelName.replace(" ", "-").toLowerCase(), yearFrom, yearTo, URL_ENCODING_FILL, URL_ENCODING_FILL);
+        String websiteURL = String.format("https://www.polovniautomobili.com/auto-oglasi/pretraga?brand=%s&model%sB%sD=%s&price_to=&year_from=%s&year_to=%s&chassis%sB%sD=&showOldNew=all&submit_1=&without_price=1", makerName.toLowerCase().replace(" ", "-"), URL_ENCODING_FILL, URL_ENCODING_FILL, modelName.replace(" ", "-").toLowerCase(), yearFrom, yearTo, URL_ENCODING_FILL, URL_ENCODING_FILL);
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteURL));
         startActivity(browserIntent);
@@ -250,7 +250,7 @@ public class CarDetailedFragment extends Fragment {
 
     private void toNewCarsSeller() {
 //        TODO change when real Official distributer URL loading is implemented
-        String websiteURL = makerName.equals("Mazda") ? "http://www.mazda.rs" : "http://www.bmw.rs";
+        String websiteURL = makerName.equals("Mazda") ? "http://www.mazda.rs" : makerName.equals("BMW") ? "http://www.bmw.rs" : "http://www.alfaromeosrbija.rs";
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteURL));
         startActivity(browserIntent);
