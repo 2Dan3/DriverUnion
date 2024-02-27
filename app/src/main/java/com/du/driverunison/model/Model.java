@@ -21,6 +21,8 @@ public class Model {
             this.photo = R.mipmap.car_default_filler4;
         else if ("X5 M".equals(name))
             this.photo = R.mipmap.car_default_filler5;
+        else if ("Giulia".equals(name))
+            this.photo = R.mipmap.car_default_filler6;
         else
             this.photo = R.mipmap.car_coupe_shape;
     }

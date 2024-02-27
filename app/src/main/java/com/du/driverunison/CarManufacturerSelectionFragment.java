@@ -73,6 +73,7 @@ public class CarManufacturerSelectionFragment extends Fragment {
 //      MOCK-DATA for testing
         this.manufacturers.add(new Manufacturer("Mazda", R.mipmap.car_manufacturer_logo));
         this.manufacturers.add(new Manufacturer("BMW", R.mipmap.car_manufacturer_logo2));
+        this.manufacturers.add(new Manufacturer("Alfa Romeo", R.mipmap.car_manufacturer_logo7));
         this.manufacturers.add(new Manufacturer("Lexus", R.mipmap.car_manufacturer_logo3));
         this.manufacturers.add(new Manufacturer("Porsche", R.mipmap.car_manufacturer_logo4));
         this.manufacturers.add(new Manufacturer("Honda", R.mipmap.car_manufacturer_logo5));

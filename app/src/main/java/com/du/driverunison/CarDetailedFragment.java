@@ -153,6 +153,22 @@ public class CarDetailedFragment extends Fragment {
                         break;
                 }
                 break;
+            case "Giulia":
+                switch (yearsRange) {
+                    case "2022-":
+                        imgRes = R.mipmap.car_default_filler6;
+                        break;
+                    case "2016-2022":
+                        imgRes = R.mipmap.car_default_filler6_6;
+                        break;
+                    case "1965-1978":
+                        imgRes = R.mipmap.car_default_filler6_1;
+                        break;
+                    default:
+                        imgRes = R.mipmap.car_coupe_shape;
+                        break;
+                }
+                break;
             default:
                 imgRes = R.mipmap.car_coupe_shape;
         }
