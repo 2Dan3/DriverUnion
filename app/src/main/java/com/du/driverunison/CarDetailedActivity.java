@@ -52,6 +52,7 @@ public class CarDetailedActivity extends FragmentActivity {
     private TextView tvNextGen;
     private LinearLayout layoutPrevGen;
     private LinearLayout layoutNextGen;
+    private TabLayout layoutTabbed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +89,13 @@ public class CarDetailedActivity extends FragmentActivity {
         tvNextGen = binding.tvNextGen;
         layoutPrevGen = binding.prevGenLayout;
         layoutNextGen = binding.nextGenLayout;
+        layoutTabbed = binding.tabLayoutCarDetailed;
         if (existingGenYearSpans.size() > 1)
             tvPrevGen.setText(existingGenYearSpans.get(existingGenYearSpans.size()-2));
         else {
             tvPrevGen.setText("No older models");
             layoutNextGen.setVisibility(View.INVISIBLE);
+            layoutTabbed.setVisibility(View.INVISIBLE);
         }
         // Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = binding.pagerCarDetailed;

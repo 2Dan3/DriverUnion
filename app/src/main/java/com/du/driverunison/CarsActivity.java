@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 public class CarsActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
+//    private AppBarConfiguration appBarConfiguration;
     private ActivityCarManufacturersBinding binding;
 
-    private RecyclerView recyclerView;
-    private CarManufacturerRecyclerAdapter adapter;
-    private ArrayList<Manufacturer> manufacturers;
+//    private RecyclerView recyclerView;
+//    private CarManufacturerRecyclerAdapter adapter;
+//    private ArrayList<Manufacturer> manufacturers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,7 +2,6 @@ package com.du.driverunison;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,13 +14,6 @@ import android.view.ViewGroup;
 
 import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.util.CarManufacturerRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.File;
 import java.util.ArrayList;
 
 public class CarManufacturerSelectionFragment extends Fragment {
@@ -71,9 +63,9 @@ public class CarManufacturerSelectionFragment extends Fragment {
 //      TODO load all existing manufacturers from Database / Server
 
 //      MOCK-DATA for testing
-        this.manufacturers.add(new Manufacturer("Mazda", R.mipmap.car_manufacturer_logo));
-        this.manufacturers.add(new Manufacturer("BMW", R.mipmap.car_manufacturer_logo2));
         this.manufacturers.add(new Manufacturer("Alfa Romeo", R.mipmap.car_manufacturer_logo7));
+        this.manufacturers.add(new Manufacturer("BMW", R.mipmap.car_manufacturer_logo2));
+        this.manufacturers.add(new Manufacturer("Mazda", R.mipmap.car_manufacturer_logo));
         this.manufacturers.add(new Manufacturer("Lexus", R.mipmap.car_manufacturer_logo3));
         this.manufacturers.add(new Manufacturer("Porsche", R.mipmap.car_manufacturer_logo4));
         this.manufacturers.add(new Manufacturer("Honda", R.mipmap.car_manufacturer_logo5));
