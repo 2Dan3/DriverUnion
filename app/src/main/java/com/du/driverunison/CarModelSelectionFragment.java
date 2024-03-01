@@ -1,5 +1,6 @@
 package com.du.driverunison;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.model.Model;
-import com.du.driverunison.util.CarManufacturerRecyclerAdapter;
 import com.du.driverunison.util.CarModelRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -113,7 +111,7 @@ public class CarModelSelectionFragment extends Fragment {
                     String modelName = modelData.getKey();
 //                    Toast.makeText(getActivity(), "model: " + modelName, Toast.LENGTH_SHORT).show();
 //                    todo fix temporary workaround for :  temporary default photo, until real car model photo is loaded
-                    Model newModel = new Model(modelName, 0);
+                    Model newModel = new Model(manufacturerName, modelName, 0);
                     models.add(newModel);
 //                    Toast.makeText(getActivity(), "mod: " + newModel, Toast.LENGTH_SHORT).show();
                 }

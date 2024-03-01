@@ -3,28 +3,16 @@ package com.du.driverunison.model;
 import com.du.driverunison.R;
 
 public class Model {
+    private String manufacturerName;
     private String name;
     private int photo;
 
     public Model(){}
 
-    public Model(String name, int photo) {
+    public Model(String manufacturerName, String name, int photo) {
+        this.manufacturerName = manufacturerName;
         this.name = name;
-//        todo : fix when real photo server fetch is implemented
-        if ("6".equals(name))
-            this.photo = R.mipmap.car_default_filler;
-        else if ("M3".equals(name))
-            this.photo = R.mipmap.car_default_filler2;
-        else if ("3".equals(name))
-            this.photo = R.mipmap.car_default_filler3;
-        else if ("CX-60".equals(name))
-            this.photo = R.mipmap.car_default_filler4;
-        else if ("X5 M".equals(name))
-            this.photo = R.mipmap.car_default_filler5;
-        else if ("Giulia".equals(name))
-            this.photo = R.mipmap.car_default_filler6;
-        else
-            this.photo = R.mipmap.car_coupe_shape;
+        this.photo = photo;
     }
 
     public String getName() {
@@ -39,9 +27,14 @@ public class Model {
 //    public void setPhoto(int photo) {
 //        this.photo = photo;
 //    }
-
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+//    public void setManufacturerName(String manufacturerName) {
+//        this.manufacturerName = manufacturerName;
+//    }
     @Override
     public String toString() {
-        return name + " " + photo;
+        return manufacturerName + " " + name + " " + photo;
     }
 }

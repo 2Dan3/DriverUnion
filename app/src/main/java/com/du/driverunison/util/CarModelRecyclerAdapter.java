@@ -1,5 +1,6 @@
 package com.du.driverunison.util;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecycl
         return models.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements FetchImageTask.FetchImageTaskCallback {
         private final TextView tvModelName;
         private final ImageView ivModelPhoto;
         private final CardView modelOptionContainer;
@@ -68,9 +69,14 @@ public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecycl
             modelOptionContainer = view.findViewById(R.id.model_option_container);
         }
 
+        @Override
+        public void onResultReceived(Bitmap result) {
+            if (result != null && ivModelPhoto != null)
+                ivModelPhoto.setImageBitmap(result);
+        }
         public void embedData(Model loadingModel, int position){
             tvModelName.setText(loadingModel.getName());
-            ivModelPhoto.setImageResource(loadingModel.getPhoto());
+            new FetchImageTask(this).execute(loadingModel.getManufacturerName(), loadingModel.getName());
         }
     }
 }

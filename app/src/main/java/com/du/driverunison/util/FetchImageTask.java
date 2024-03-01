@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class FetchImageTask extends AsyncTask<String, Void, Bitmap> {
-
+    private final String[] httpReqParamKeys = new String[]{"maker", "model", "shape", "years"};
     FetchImageTaskCallback listener;
 
     public FetchImageTask(FetchImageTaskCallback listener) {
@@ -16,24 +16,26 @@ public class FetchImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected Bitmap doInBackground(String... args) {
-
-        String fileName = args[0];
-//        String output = "simulated return value";
-
-        Bitmap bitmap = fetchImage(fileName);
-
+        Bitmap bitmap = fetchImage(args);
         return bitmap;
     }
 
     protected void onPostExecute(Bitmap result) {
         listener.onResultReceived(result);
     }
-    private Bitmap fetchImage(String fileName){
-//        byte[] retVal = null;
+    private Bitmap fetchImage(String... args){
+        if (args.length == 0)
+            return null;
 
         Bitmap bitmap = null;
+        StringBuilder urlBuffer = new StringBuilder("http://192.168.0.10:8080/image?");
+        urlBuffer.append(httpReqParamKeys[0]).append("=").append(args[0]);
+        for (int i = 1; i < args.length; i++) {
+            urlBuffer.append("&").append(httpReqParamKeys[i]).append("=").append(args[i]);
+        }
+
         try {
-            InputStream ins = new URL("http://192.168.0.10:8080/image?name=" + fileName).openStream();
+            InputStream ins = new URL(urlBuffer.toString()).openStream();
             bitmap = BitmapFactory.decodeStream(ins);
         } catch (Exception e) {
 //            Log.e(“Error”, e.getMessage());

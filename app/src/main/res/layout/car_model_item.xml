@@ -25,7 +25,7 @@
                 android:maxWidth="270sp"
                 android:layout_height="150sp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/car_default_filler"/>
+                android:src="@mipmap/car_coupe_shape"/>
 
             <TextView
                 android:id="@+id/tv_car_model_name"

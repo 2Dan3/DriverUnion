@@ -17,7 +17,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="5dp"
             android:layout_marginTop="24dp"
-            android:layout_weight=".85"
+            android:layout_weight=".95"
             app:cardCornerRadius="24dp"
             app:cardElevation="12sp">
 
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/car_hb_shape"
+                android:src="@mipmap/car_coupe_shape"
                 app:layout_collapseMode="parallax" />
 
             <!--            <androidx.appcompat.widget.Toolbar-->

@@ -49,7 +49,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
     public CarDetailedFragment() {}
 
-    public static CarDetailedFragment newInstance(/*String carLength, String carWidth, String carWheelbase, String carHeight,*/ String carMakerName, String carModelName, String carChassisShape, String carYearSpanManufactured /*,String carTrunkSize*/) {
+    public static CarDetailedFragment newInstance(/*String carLength, String carWidth, String carWheelbase, String carHeight,*/ String carMakerName, String carModelName, String carChassisShape, String carYearSpanManufactured/*, String carTrunkSize*/) {
         CarDetailedFragment fragment = new CarDetailedFragment();
         Bundle args = new Bundle();
         args.putString(MAKER_NAME, carMakerName);
@@ -81,8 +81,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //            this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
             loadModelGeneralSpecs();
 
-            final String fileToFetchName = String.format("%s_%s_%s_%s", makerName, modelName, chassisShape, yearsRange);
-            new FetchImageTask(this).execute(fileToFetchName);
+            new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
         }
     }
 
@@ -124,64 +123,27 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
     private void setupUI(View view) {
 //        todo temporary workaround refactor, having implemented real images fetch from img-server
 //          binding.detailedModelIv.setImageURI();
-        int imgLargeRes;
         int imgManufacturerRes;
         switch (this.modelName){
             case "M3":
-                imgLargeRes = R.mipmap.car_default_filler2;
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo2;
                 break;
             case "6":
-                imgLargeRes = R.mipmap.car_default_filler;
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo;
                 break;
             case "3":
-                imgLargeRes = R.mipmap.car_default_filler3;
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo;
                 break;
             case "CX-60":
-                imgLargeRes = R.mipmap.car_default_filler4;
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo;
                 break;
             case "X5 M":
-                switch (yearsRange) {
-                    case "2023-":
-                        imgLargeRes = R.mipmap.car_default_filler5;
-                        break;
-                    case "2019-2023":
-                        imgLargeRes = R.mipmap.car_default_filler5_5;
-                        break;
-                    case "2015-2018":
-                        imgLargeRes = R.mipmap.car_default_filler5_2;
-                        break;
-                    case "2010-2013":
-                        imgLargeRes = R.mipmap.car_default_filler5_1;
-                        break;
-                    default:
-                        imgLargeRes = R.mipmap.car_coupe_shape;
-                        break;
-                }
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo2;
                 break;
             case "Giulia":
-                switch (yearsRange) {
-                    case "2022-":
-                        imgLargeRes = R.mipmap.car_default_filler6;
-                        break;
-                    case "2016-2022":
-                        imgLargeRes = R.mipmap.car_default_filler6_6;
-                        break;
-                    case "1965-1978":
-                        imgLargeRes = R.mipmap.car_default_filler6_1;
-                        break;
-                    default:
-                        imgLargeRes = R.mipmap.car_coupe_shape;
-                        break;
-                }
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo7;
                 break;
             default:
-                imgLargeRes = R.mipmap.car_coupe_shape;
                 imgManufacturerRes = R.mipmap.car_coupe_shape;
         }
 
@@ -299,7 +261,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
     }
     public void onResultReceived(Bitmap result) {
 //        Log.d("TEST TASK RESULT", result);
-        if (result != null /*&& result.length > 0*/) {
+        if (result != null && ivCarModel != null) {
 //            Toast.makeText(getContext(), result.length, Toast.LENGTH_SHORT).show();
             ivCarModel.setImageBitmap(result);
         }

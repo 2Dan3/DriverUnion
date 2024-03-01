@@ -69,7 +69,7 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
 
         @Override
         public void onResultReceived(Bitmap result) {
-            if (ivManufacturerLogo != null)
+            if (result != null && ivManufacturerLogo != null)
                 ivManufacturerLogo.setImageBitmap(result);
         }
 
