@@ -1,5 +1,6 @@
 package com.du.driverunison.util;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
         return manufacturers.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements FetchImageTask.FetchImageTaskCallback{
 
         private final TextView tvManufacturerName;
         private final ImageView ivManufacturerLogo;
@@ -66,10 +67,16 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
             manufacturerOptionContainer = view.findViewById(R.id.manufacturer_option_container);
         }
 
+        @Override
+        public void onResultReceived(Bitmap result) {
+            if (ivManufacturerLogo != null)
+                ivManufacturerLogo.setImageBitmap(result);
+        }
+
         public void embedData(Manufacturer loadingManufacturer, int position){
 
             tvManufacturerName.setText(loadingManufacturer.getName());
-            ivManufacturerLogo.setImageResource(loadingManufacturer.getLogo());
+            new FetchImageTask(this).execute(loadingManufacturer.getName());
 //
 //            switch (loadingChassisOption){
 //                case "estate":

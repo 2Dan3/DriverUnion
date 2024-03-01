@@ -1,6 +1,7 @@
 package com.du.driverunison;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,13 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.du.driverunison.model.CarGeneralSpecs;
+import com.du.driverunison.util.FetchImageTask;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class CarDetailedFragment extends Fragment {
+public class CarDetailedFragment extends Fragment implements FetchImageTask.FetchImageTaskCallback{
 //    public static final String LENGTH = "length";
 //    public static final String WIDTH = "width";
 //    public static final String HEIGHT = "height";
@@ -41,6 +43,7 @@ public class CarDetailedFragment extends Fragment {
     private String modelName;
     private String chassisShape;
     private String yearsRange;
+    private ImageView ivCarModel;
     private CarGeneralSpecs carGeneralSpecs;
     private DialogEngines dialogEngines;
 
@@ -77,6 +80,9 @@ public class CarDetailedFragment extends Fragment {
 //            this.height = args.getString(HEIGHT, "N/A");
 //            this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
             loadModelGeneralSpecs();
+
+            final String fileToFetchName = String.format("%s_%s_%s_%s", makerName, modelName, chassisShape, yearsRange);
+            new FetchImageTask(this).execute(fileToFetchName);
         }
     }
 
@@ -185,7 +191,8 @@ public class CarDetailedFragment extends Fragment {
                 cardPowertrains,
                 cardForum;
         if (view != null) {
-            ((ImageView) view.findViewById(R.id.detailed_model_iv)).setImageResource(imgLargeRes);
+            ivCarModel = view.findViewById(R.id.detailed_model_iv);
+//            ivCarModel.setImageResource(imgLargeRes);
             ((ImageView) view.findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
             ((TextView) view.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView) view.findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
@@ -201,7 +208,8 @@ public class CarDetailedFragment extends Fragment {
             cardForum = view.findViewById(R.id.card_forums);
         }
         else {
-            ((ImageView)getActivity().findViewById(R.id.detailed_model_iv)).setImageResource(imgLargeRes);
+            ivCarModel = getActivity().findViewById(R.id.detailed_model_iv);
+//            ivCarModel.setImageResource(imgLargeRes);
             ((ImageView)getActivity().findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
             ((TextView)getActivity().findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView)getActivity().findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
@@ -288,5 +296,12 @@ public class CarDetailedFragment extends Fragment {
     private void toForum(View v){
         Toast.makeText(getContext(), "Forums are currently unavailable. Please try again later!", Toast.LENGTH_SHORT).show();
 //        Todo
+    }
+    public void onResultReceived(Bitmap result) {
+//        Log.d("TEST TASK RESULT", result);
+        if (result != null /*&& result.length > 0*/) {
+//            Toast.makeText(getContext(), result.length, Toast.LENGTH_SHORT).show();
+            ivCarModel.setImageBitmap(result);
+        }
     }
 }
