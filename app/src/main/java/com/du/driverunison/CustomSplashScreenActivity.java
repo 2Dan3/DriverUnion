@@ -1,10 +1,7 @@
 package com.du.driverunison;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.window.SplashScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 

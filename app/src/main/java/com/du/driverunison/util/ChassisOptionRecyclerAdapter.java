@@ -91,13 +91,6 @@ public class ChassisOptionRecyclerAdapter extends RecyclerView.Adapter<ChassisOp
                     ivChassisShape.setImageResource(R.mipmap.car_pickup_shape);
                     break;
             }
-
-//            tvRankOrderNum.setText(String.valueOf(position + 1));
-//            tvUsername.setText(loadingPlayer.getUsername());
-//            tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
-//            tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
-////            Todo default profile pic ->  loaded img parse
-//            imgPicture.setImageResource(R.mipmap.ic_battle_bird);
         }
     }
 }

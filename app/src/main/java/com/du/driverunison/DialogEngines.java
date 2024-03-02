@@ -20,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class DialogEngines extends Dialog {
@@ -40,32 +39,26 @@ public class DialogEngines extends Dialog {
         this.yearsOfManufacture = yearsOfManufacture;
     }
 
-    // This method is called when the Dialog is created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState != null
                 ? savedInstanceState
                 : new Bundle());
 
-        // Use the LayoutInflater to inflate the
-        // dialog_list layout file into a View object
+        // Inflate layout into View
         View view
                 = LayoutInflater.from(getContext())
                 .inflate(R.layout.engine_specs, null);
 
         // Set the dialog's content view
-        // to the newly created View object
         setContentView(view);
 
-        // Allow the dialog to be dismissed
-        // by touching outside of it
+        // Touching outside cancels Dialog
         setCanceledOnTouchOutside(true);
 
-        // Allow the dialog to be canceled
-        // by pressing the back button
+        // Back button cancels Dialog
         setCancelable(true);
 
-        // Set up the RecyclerView in the dialog
         loadMotorizationSpecs(view);
 
         toggleButtons = new AppCompatToggleButton[]{view.findViewById(R.id.toggle_engine_manual_transmissions), view.findViewById(R.id.toggle_engine_automatic_transmissions)};
@@ -74,21 +67,6 @@ public class DialogEngines extends Dialog {
         automatics = new ArrayList<>();
         adapterMotorizations = new ArrayList<>();
     }
-
-    // This method sets up the RecyclerView in the dialog
-//    private void setUpRecyclerView(View view) {
-//        // Find the RecyclerView in the layout file and set
-//        // its layout manager to a LinearLayoutManager
-//        RecyclerView recyclerView
-//                = view.findViewById(R.id.recycler_motor_specs_car_detailed);
-//        recyclerView.setLayoutManager(
-//                new LinearLayoutManager(getContext()));
-//
-//        // Create a new instance of the EmployeeAdapter
-//        // and set it as the RecyclerView's adapter
-//        adapter = new CarSpecMotorizationRecyclerAdapter(manuals);
-//        recyclerView.setAdapter(adapter);
-//    }
     private void loadMotorizationSpecs(View view) {
 
         DatabaseReference enginesRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturer).child(model).child(chassisShape).child(yearsOfManufacture).child("engines");
@@ -96,14 +74,13 @@ public class DialogEngines extends Dialog {
             @Override
             public void onDataChange(@NonNull DataSnapshot transmissionType) {
                 for (DataSnapshot transmissionEnginesAvailable : transmissionType.getChildren()) {
-//                    Toast.makeText(CarDetailedActivity.this, transmissionData.toString(), Toast.LENGTH_SHORT).show();
                     String transmission = transmissionEnginesAvailable.getKey();
-//                    if (engineBasicData.exists()) {
+                    boolean added;
                     for (DataSnapshot engine: transmissionEnginesAvailable.getChildren()){
                         String name = engine.getKey();
                         String layout = engine.getValue(String.class);
                         Motorization motorSpec = new Motorization(name, layout, transmission);
-                        boolean added = "manual".equals(transmission) ? manuals.add(motorSpec) : automatics.add(motorSpec);
+                        added = "manual".equals(transmission) ? manuals.add(motorSpec) : automatics.add(motorSpec);
                     }
 //                    }
                 }
@@ -137,7 +114,6 @@ public class DialogEngines extends Dialog {
                 }
 
                 if (toggleButtons[0].isChecked() == toggleButtons[1].isChecked()){
-//                    String transmissionType = buttonView.getText().toString();
                     adapterMotorizations.clear();
                     if (isToggled){
                         adapterMotorizations.addAll(manuals);

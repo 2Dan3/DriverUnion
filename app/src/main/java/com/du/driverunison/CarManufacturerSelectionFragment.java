@@ -33,10 +33,6 @@ public class CarManufacturerSelectionFragment extends Fragment {
 
     public static CarManufacturerSelectionFragment newInstance() {
         CarManufacturerSelectionFragment fragment = new CarManufacturerSelectionFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -44,10 +40,6 @@ public class CarManufacturerSelectionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.manufacturers = new ArrayList<>();
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
         getCarManufacturers();
     }
 

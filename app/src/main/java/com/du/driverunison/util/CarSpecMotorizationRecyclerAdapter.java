@@ -11,7 +11,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.driverunison.R;
-import com.du.driverunison.model.Model;
 import com.du.driverunison.model.Motorization;
 
 import java.util.ArrayList;
@@ -25,8 +24,6 @@ public class CarSpecMotorizationRecyclerAdapter extends RecyclerView.Adapter<Car
     }
 
     public CarSpecMotorizationRecyclerAdapter(ArrayList<Motorization> motorizations){
-//        motorizations.add(new Motorization());
-//        motorizations.add(new Motorization());
         this.motorizations = motorizations;
     }
     public void setMotorizations(ArrayList<Motorization> motorizations){

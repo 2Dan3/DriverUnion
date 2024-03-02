@@ -77,37 +77,6 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
 
             tvManufacturerName.setText(loadingManufacturer.getName());
             new FetchImageTask(this).execute(loadingManufacturer.getName());
-//
-//            switch (loadingChassisOption){
-//                case "estate":
-//                    ivChassisShape.setImageResource(R.mipmap.car_estate_shape);
-//                    break;
-//                case "hatchback":
-//                    ivChassisShape.setImageResource(R.mipmap.car_hb_shape);
-//                    break;
-//                case "sedan":
-//                    ivChassisShape.setImageResource(R.mipmap.car_sedan_shape);
-//                    break;
-//                case "coupe":
-//                    ivChassisShape.setImageResource(R.mipmap.car_coupe_shape);
-//                    break;
-//                case "suv":
-//                    ivChassisShape.setImageResource(R.mipmap.car_suv_shape);
-//                    break;
-//                case "mpv":
-//                    ivChassisShape.setImageResource(R.mipmap.car_mpv_shape);
-//                    break;
-//                case "pickup":
-//                    ivChassisShape.setImageResource(R.mipmap.car_pickup_shape);
-//                    break;
-//            }
-
-//            tvRankOrderNum.setText(String.valueOf(position + 1));
-//            tvUsername.setText(loadingPlayer.getUsername());
-//            tvCurrentRank.setText( String.valueOf(loadingPlayer.getPointsCurrentRank()) );
-//            tvStars.setText( String.valueOf(loadingPlayer.getStars()) );
-////            Todo default profile pic ->  loaded img parse
-//            imgPicture.setImageResource(R.mipmap.ic_battle_bird);
         }
     }
 }

@@ -25,20 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CarDetailedFragment extends Fragment implements FetchImageTask.FetchImageTaskCallback{
-//    public static final String LENGTH = "length";
-//    public static final String WIDTH = "width";
-//    public static final String HEIGHT = "height";
-//    public static final String WHEELBASE = "wheelbase";
-//    public static final String TRUNK_SIZE = "trunk";
     public static final String MAKER_NAME = "maker_name";
     public static final String MODEL_NAME = "model_name";
     public static final String CHASSIS_SHAPE = "chassis_shape";
     public static final String YEARS_OF_MANUFACTURE_RANGE = "years";
-//    private String length;
-//    private String width;
-//    private String height;
-//    private String wheelbase;
-//    private String trunkSize;
     private String makerName;
     private String modelName;
     private String chassisShape;
@@ -49,18 +39,13 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
     public CarDetailedFragment() {}
 
-    public static CarDetailedFragment newInstance(/*String carLength, String carWidth, String carWheelbase, String carHeight,*/ String carMakerName, String carModelName, String carChassisShape, String carYearSpanManufactured/*, String carTrunkSize*/) {
+    public static CarDetailedFragment newInstance(String carMakerName, String carModelName, String carChassisShape, String carYearSpanManufactured) {
         CarDetailedFragment fragment = new CarDetailedFragment();
         Bundle args = new Bundle();
         args.putString(MAKER_NAME, carMakerName);
         args.putString(MODEL_NAME, carModelName);
         args.putString(CHASSIS_SHAPE, carChassisShape);
         args.putString(YEARS_OF_MANUFACTURE_RANGE, carYearSpanManufactured);
-//        args.putString(LENGTH, carLength);
-//        args.putString(WIDTH, carWidth);
-//        args.putString(WHEELBASE, carWheelbase);
-//        args.putString(HEIGHT, carHeight);
-//        args.putString(TRUNK_SIZE, carTrunkSize);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,30 +59,16 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             this.modelName = args.getString(MODEL_NAME, "N/A");
             this.chassisShape = args.getString(CHASSIS_SHAPE, "N/A");
             this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
-//            this.length = args.getString(LENGTH, "N/A");
-//            this.width = args.getString(WIDTH, "N/A");
-//            this.wheelbase = args.getString(WHEELBASE, "N/A");
-//            this.height = args.getString(HEIGHT, "N/A");
-//            this.trunkSize = args.getString(TRUNK_SIZE, "N/A");
-            loadModelGeneralSpecs();
 
+            loadModelGeneralSpecs();
             new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
         }
     }
-
-//    private void setupOnClickListeners(View v) {
-//        v.findViewById(R.id.btn_show_engines).setOnClickListener(this::makePopup);
-////        v.findViewById(R.id.btn_show_info).setOnClickListener(this::makePopup);
-//        v.findViewById(R.id.btn_show_shopping).setOnClickListener(this::makePopup);
-//    }
-
     private void loadModelGeneralSpecs() {
         DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("general specs");
         fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot fullModelSpecSnap) {
-
-//                genYearSpans.add(genYearSpan);
                 carGeneralSpecs = fullModelSpecSnap.getValue(CarGeneralSpecs.class);
                 setupUI(getView());
             }
@@ -115,7 +86,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //        setupUI(v);
         ((TextView)v.findViewById(R.id.detailed_model_years)).setText(yearsRange);
         ((TextView) v.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
-//        setupOnClickListeners(v);
 
         return v;
     }
@@ -154,7 +124,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
                 cardForum;
         if (view != null) {
             ivCarModel = view.findViewById(R.id.detailed_model_iv);
-//            ivCarModel.setImageResource(imgLargeRes);
             ((ImageView) view.findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
             ((TextView) view.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView) view.findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
@@ -171,7 +140,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         }
         else {
             ivCarModel = getActivity().findViewById(R.id.detailed_model_iv);
-//            ivCarModel.setImageResource(imgLargeRes);
             ((ImageView)getActivity().findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
             ((TextView)getActivity().findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView)getActivity().findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
@@ -193,38 +161,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         cardPowertrains.setOnClickListener(this::onClickShowEngines);
         cardForum.setOnClickListener(this::toForum);
     }
-
-//    private void makePopup(View v/* ,Car selectedCar, int modelPosition*/) {
-//        int menuToBeDisplayedID = 0;
-//        if (v.getId() == R.id.btn_show_engines)
-//            menuToBeDisplayedID = R.menu.car_parts_menu;
-//        else if (v.getId() == R.id.btn_show_info) {
-//            menuToBeDisplayedID = R.menu.car_info;
-//        } else if (v.getId() == R.id.btn_show_shopping) {
-//            menuToBeDisplayedID = R.menu.car_shop;
-//        }
-//        PopupMenu popupMenu = new PopupMenu(getContext(), v);
-//        popupMenu.getMenuInflater().inflate(menuToBeDisplayedID, popupMenu.getMenu());
-//
-//        popupMenu.setOnMenuItemClickListener(menuItem -> {
-//                    if (menuItem.getItemId() == R.id.item_powertrains)
-//                        onClickShowEngines(v);
-////                    else if (menuItem.getItemId() == R.id.item_problems)
-////                        onClickShowCommonProblems(v);
-////                    else if (menuItem.getItemId() == R.id.item_discussions)
-////                        toForums();
-//                    else if (menuItem.getItemId() == R.id.item_car_parts)
-//                        toCarPartsSeller();
-//                    else if (menuItem.getItemId() == R.id.item_cars_used)
-//                        toUsedCarsSeller();
-//                    else if (menuItem.getItemId() == R.id.item_cars_new)
-//                        toNewCarsSeller();
-//                    return true;
-//                }
-//        );
-////        popupMenu.setForceShowIcon(true);
-//        popupMenu.show();
-//    }
     private void onClickShowEngines(View v) {
         if (dialogEngines == null)
             dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
@@ -260,9 +196,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //        Todo
     }
     public void onResultReceived(Bitmap result) {
-//        Log.d("TEST TASK RESULT", result);
         if (result != null && ivCarModel != null) {
-//            Toast.makeText(getContext(), result.length, Toast.LENGTH_SHORT).show();
             ivCarModel.setImageBitmap(result);
         }
     }

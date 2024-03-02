@@ -1,6 +1,6 @@
 package com.du.driverunison;
 
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -57,10 +57,11 @@ public class CarDetailedActivity extends FragmentActivity {
         this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
         this.existingGenYearSpans = args.getStringArrayList(EXISTING_GEN_YEAR_SPANS);
 
+//       TODO check NAV & del auto-gen fragments (First- & Second-)
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_car_detailed);
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
+//          .
 //        binding.fab.setOnClickListener((View.OnClickListener) view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAnchorView(R.id.fab)
 //                .setAction("Action", null).show());
@@ -112,7 +113,6 @@ public class CarDetailedActivity extends FragmentActivity {
             }
         });
         TabLayout tabLayout = binding.tabLayoutCarDetailed;
-//        tabLayout.setupWithViewPager(viewPager);
         TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
 
         });
@@ -121,18 +121,6 @@ public class CarDetailedActivity extends FragmentActivity {
 //        Initially the newest gen of model is displayed
         viewPager.setCurrentItem(existingGenYearSpans.size() - 1, false);
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        if (viewPager.getCurrentItem() == 0) {
-//            // If the user is currently looking at the first step, allow the system to handle the
-//            // Back button. This calls finish() on this activity and pops the back stack.
-//            super.onBackPressed();
-//        } else {
-//            // Otherwise, select the previous step.
-//            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//        }
-//    }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         public ScreenSlidePagerAdapter(FragmentActivity fa) {
@@ -150,7 +138,7 @@ public class CarDetailedActivity extends FragmentActivity {
             return existingGenYearSpans.size();
         }
     }
-
+//  TODO check Nav controls and auto-config and, if unnecessary - del this
 //    @Override
 //    public boolean onSupportNavigateUp() {
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_car_detailed);

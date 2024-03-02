@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +24,6 @@ public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecycl
     }
 
     public CarModelRecyclerAdapter(ArrayList<Model> models){
-//        models.add(new Model("6", 0));
-//        models.add(new Model("3", 0));
         this.models = models;
     }
 

@@ -60,13 +60,7 @@ public class Motorization {
     public int getPhoto() {
         return photo;
     }
-    public void setPhoto(int photo) {
-        this.photo = photo;
-    }
     public String getTransmission(){
         return transmission;
-    }
-    public void setTransmission(String transmission){
-        this.transmission = transmission;
     }
 }

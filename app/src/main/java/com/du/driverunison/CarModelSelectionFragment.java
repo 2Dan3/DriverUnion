@@ -1,17 +1,15 @@
 package com.du.driverunison;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.du.driverunison.model.Model;
 import com.du.driverunison.util.CarModelRecyclerAdapter;
@@ -85,7 +83,6 @@ public class CarModelSelectionFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot carModelSnapshot) {
                 for (DataSnapshot chassisData : carModelSnapshot.getChildren()) {
                     String chassisShape = chassisData.getKey();
-//                    Toast.makeText(getActivity(), chassisShape, Toast.LENGTH_SHORT).show();
                     chassisShapesAvailable.add(chassisShape);
                 }
                 getActivity().runOnUiThread(() -> {
@@ -97,27 +94,16 @@ public class CarModelSelectionFragment extends Fragment {
         });
     }
     private void getCarModels() {
-//        models.add(new Model("M3", 0));
-//        models.add(new Model("6", 0));
-//        models.add(new Model("3", 0));
-//        adapter.setModels(models);
         DatabaseReference manufacturerRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturerName);
         manufacturerRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot carManufacturerSnapshot) {
-//                Toast.makeText(getActivity(), "makerSnap: " + carManufacturerSnapshot, Toast.LENGTH_SHORT).show();
 
                 for (DataSnapshot modelData : carManufacturerSnapshot.getChildren()) {
                     String modelName = modelData.getKey();
-//                    Toast.makeText(getActivity(), "model: " + modelName, Toast.LENGTH_SHORT).show();
-//                    todo fix temporary workaround for :  temporary default photo, until real car model photo is loaded
-                    Model newModel = new Model(manufacturerName, modelName, 0);
+                    Model newModel = new Model(manufacturerName, modelName);
                     models.add(newModel);
-//                    Toast.makeText(getActivity(), "mod: " + newModel, Toast.LENGTH_SHORT).show();
                 }
-//                adapter.setClickListener(this::onItemClick);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                recyclerView.setAdapter(adapter);
                 adapter.setModels(models);
             }
             @Override
