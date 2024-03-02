@@ -69,6 +69,57 @@
                     android:textStyle="italic" />
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_star_rating"
+                android:background="@color/black_transparent"
+                android:layout_width="match_parent"
+                android:weightSum="1.5"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|top"
+                android:paddingHorizontal="10sp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Euro NCAP Safety"
+                    android:layout_gravity="start|center_vertical"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="#FFDC00"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
+                <ImageView
+                    android:id="@+id/iv_star_1"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star_full"/>
+                <ImageView
+                    android:id="@+id/iv_star_2"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star_empty"/>
+                <ImageView
+                    android:id="@+id/iv_star_3"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star_empty"/>
+                <ImageView
+                    android:id="@+id/iv_star_4"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star_empty"/>
+                <ImageView
+                    android:id="@+id/iv_star_5"
+                    android:layout_width="0dp"
+                    android:layout_weight=".1"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_star_empty"/>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
@@ -82,10 +133,6 @@
             android:layout_weight="1.8"
             android:elevation="8dp"
             app:cardCornerRadius="20dp">
-            <!--    <androidx.core.widget.NestedScrollView-->
-            <!--        android:layout_width="wrap_content"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -263,13 +310,8 @@
 
                 </LinearLayout>
             </ScrollView>
-            <!--</androidx.core.widget.NestedScrollView>-->
         </androidx.cardview.widget.CardView>
 
-        <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content">-->
-        <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
     </LinearLayout>
 
     <FrameLayout
@@ -478,18 +520,7 @@
                     android:textStyle="bold|italic" />
             </androidx.cardview.widget.CardView>
 
-<!--            <View-->
-<!--                android:id="@+id/divider2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:layout_marginHorizontal="10sp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:background="?android:attr/listDivider"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/card_powertrains" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.du.driverunison.model.CarGeneralSpecs;
+import com.du.driverunison.model.CarSafetySpecs;
 import com.du.driverunison.util.FetchImageTask;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +36,9 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
     private String yearsRange;
     private ImageView ivCarModel;
     private CarGeneralSpecs carGeneralSpecs;
+    private CarSafetySpecs carSafetySpecs;
     private DialogEngines dialogEngines;
+    private DialogSafetySpecs dialogSafetySpecs;
 
     public CarDetailedFragment() {}
 
@@ -62,6 +65,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
             loadModelGeneralSpecs();
             new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
+            loadModelSafetyRatings();
         }
     }
     private void loadModelGeneralSpecs() {
@@ -71,6 +75,20 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             public void onDataChange(@NonNull DataSnapshot fullModelSpecSnap) {
                 carGeneralSpecs = fullModelSpecSnap.getValue(CarGeneralSpecs.class);
                 setupUI(getView());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+    private void loadModelSafetyRatings() {
+        DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("safety");
+        fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot fullModelSafetySnap) {
+                carSafetySpecs = fullModelSafetySnap.getValue(CarSafetySpecs.class);
+                if (carSafetySpecs != null)
+                    showSafetyRatingOverall(getView());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -161,11 +179,38 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         cardPowertrains.setOnClickListener(this::onClickShowEngines);
         cardForum.setOnClickListener(this::toForum);
     }
+    private void showSafetyRatingOverall(View view) {
+        ImageView[] ivSafetyRatingStars;
+        View viewSafetyRating;
+        if (view != null) {
+            ivSafetyRatingStars = new ImageView[]{view.findViewById(R.id.iv_star_1), view.findViewById(R.id.iv_star_2), view.findViewById(R.id.iv_star_3), view.findViewById(R.id.iv_star_4), view.findViewById(R.id.iv_star_5)};
+            viewSafetyRating = view.findViewById(R.id.layout_star_rating);
+        }else{
+            ivSafetyRatingStars = new ImageView[]{getActivity().findViewById(R.id.iv_star_1), getActivity().findViewById(R.id.iv_star_2), getActivity().findViewById(R.id.iv_star_3), getActivity().findViewById(R.id.iv_star_4), getActivity().findViewById(R.id.iv_star_5)};
+            viewSafetyRating = getActivity().findViewById(R.id.layout_star_rating);
+        }
+
+        for (int starViewIndex = 0; starViewIndex < ivSafetyRatingStars.length; starViewIndex++) {
+
+            ivSafetyRatingStars[starViewIndex].setImageResource(R.drawable.ic_star_full);
+
+            if (starViewIndex + 1 == carSafetySpecs.getStars())
+                break;
+        }
+        viewSafetyRating.setVisibility(View.VISIBLE);
+        viewSafetyRating.setOnClickListener(this::onClickShowSafetyRatingsDetailed);
+    }
     private void onClickShowEngines(View v) {
         if (dialogEngines == null)
             dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
 
         dialogEngines.show();
+    }
+    private void onClickShowSafetyRatingsDetailed(View v) {
+        if (dialogSafetySpecs == null)
+            dialogSafetySpecs = new DialogSafetySpecs(getContext(), carSafetySpecs);
+
+        dialogSafetySpecs.show();
     }
 
     private void toCarPartsSeller(View v) {
