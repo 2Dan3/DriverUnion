@@ -1,6 +1,8 @@
 package com.du.driverunison.util;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.driverunison.R;
 import com.du.driverunison.model.Model;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecyclerAdapter.ViewHolder> {
     private ArrayList<Model> models;
@@ -73,7 +80,28 @@ public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecycl
         }
         public void embedData(Model loadingModel, int position){
             tvModelName.setText(loadingModel.getName());
-            new FetchImageTask(this).execute(loadingModel.getManufacturerName(), loadingModel.getName());
+            loadModelImage(loadingModel);
+        }
+        public void loadModelImage(Model loadingModel){
+//           TODO
+//            new FetchImageTask(this).execute(loadingModel.getManufacturerName(), loadingModel.getName());
+//              /
+            StorageReference manufacturerRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+            manufacturerRef.child(loadingModel.getManufacturerName()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    for (StorageReference prefix : listResult.getItems()) {
+//                        Log.d("PREFIX:", prefix.toString());
+                        if (prefix.toString().contains(String.format("%s_%s", loadingModel.getManufacturerName(), loadingModel.getName()))) {
+                            prefix.getBytes(Long.MAX_VALUE).addOnSuccessListener(
+                                    bytes -> {
+                                        onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                            });
+                            break;
+                        }
+                    }
+                }
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.du.driverunison.util;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.driverunison.R;
 import com.du.driverunison.model.Manufacturer;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -76,7 +80,18 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
         public void embedData(Manufacturer loadingManufacturer, int position){
 
             tvManufacturerName.setText(loadingManufacturer.getName());
-            new FetchImageTask(this).execute(loadingManufacturer.getName());
+            loadManufacturerImage(loadingManufacturer);
+        }
+        private void loadManufacturerImage(Manufacturer loadingManufacturer) {
+//        new FetchImageTask(this).execute(loadingManufacturer.getName());
+
+            StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+            storageRef.child(loadingManufacturer.getName()).child(String.format("%s.png", loadingManufacturer.getName())).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                }
+            });
         }
     }
 }

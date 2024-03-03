@@ -2,6 +2,7 @@ package com.du.driverunison;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,11 +20,14 @@ import android.widget.Toast;
 import com.du.driverunison.model.CarGeneralSpecs;
 import com.du.driverunison.model.CarSafetySpecs;
 import com.du.driverunison.util.FetchImageTask;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class CarDetailedFragment extends Fragment implements FetchImageTask.FetchImageTaskCallback{
     public static final String MAKER_NAME = "maker_name";
@@ -64,10 +68,11 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
 
             loadModelGeneralSpecs();
-            new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
+            loadModelImage();
             loadModelSafetyRatings();
         }
     }
+
     private void loadModelGeneralSpecs() {
         DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("general specs");
         fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -80,6 +85,13 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+    private void loadModelImage() {
+//        new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
+
+        StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+        storageRef.child(makerName).child(String.format("%s_%s_%s_%s.png", makerName, modelName, chassisShape, yearsRange)).getBytes(Long.MAX_VALUE).addOnSuccessListener(
+                bytes -> onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length)));
     }
     private void loadModelSafetyRatings() {
         DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("safety");
