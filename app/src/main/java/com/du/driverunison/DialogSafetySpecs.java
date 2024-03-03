@@ -62,7 +62,7 @@ public class DialogSafetySpecs extends Dialog{
         TextView tvVulnerableSafety = view.findViewById(R.id.tv_vulnerable_safety);
         TextView tvActiveSafety = view.findViewById(R.id.tv_active_safety);
 
-        tvYearOfTesting.setText(String.valueOf(safetySpecs.getEvalYear()));
+        tvYearOfTesting.setText(String.format("%d %s", safetySpecs.getEvalYear(), "Safety Ratings"));
         tvAdultSafety.setText(String.format("%d%s", safetySpecs.getAdultOccupant(), "%"));
         tvChildSafety.setText(String.format("%d%s", safetySpecs.getChildOccupant(), "%"));
         tvVulnerableSafety.setText(String.format("%d%s", safetySpecs.getVulnerableRoadUsers(), "%"));

@@ -112,24 +112,15 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //        todo temporary workaround refactor, having implemented real images fetch from img-server
 //          binding.detailedModelIv.setImageURI();
         int imgManufacturerRes;
-        switch (this.modelName){
-            case "M3":
+        switch (this.makerName){
+            case "BMW":
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo2;
                 break;
-            case "6":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo;
-                break;
-            case "3":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo;
-                break;
-            case "CX-60":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo;
-                break;
-            case "X5 M":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo2;
-                break;
-            case "Giulia":
+            case "Alfa Romeo":
                 imgManufacturerRes = R.mipmap.car_manufacturer_logo7;
+                break;
+            case "Mazda":
+                imgManufacturerRes = R.mipmap.car_manufacturer_logo;
                 break;
             default:
                 imgManufacturerRes = R.mipmap.car_coupe_shape;
