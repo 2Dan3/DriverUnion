@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.du.driverunison.R;
 import com.du.driverunison.model.Model;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -86,20 +88,28 @@ public class CarModelRecyclerAdapter extends RecyclerView.Adapter<CarModelRecycl
 //           TODO
 //            new FetchImageTask(this).execute(loadingModel.getManufacturerName(), loadingModel.getName());
 //              /
-            StorageReference manufacturerRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
-            manufacturerRef.child(loadingModel.getManufacturerName()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                @Override
-                public void onSuccess(ListResult listResult) {
-                    for (StorageReference prefix : listResult.getItems()) {
+//            StorageReference manufacturerRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+//            manufacturerRef.child(loadingModel.getManufacturerName()).listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//                @Override
+//                public void onSuccess(ListResult listResult) {
+//                    for (StorageReference prefix : listResult.getItems()) {
 //                        Log.d("PREFIX:", prefix.toString());
-                        if (prefix.toString().contains(String.format("%s_%s", loadingModel.getManufacturerName(), loadingModel.getName()))) {
-                            prefix.getBytes(Long.MAX_VALUE).addOnSuccessListener(
-                                    bytes -> {
-                                        onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
-                            });
-                            break;
-                        }
-                    }
+//                        if (prefix.toString().contains(String.format("%s_%s", loadingModel.getManufacturerName(), loadingModel.getName()))) {
+//                            prefix.getBytes(Long.MAX_VALUE).addOnSuccessListener(
+//                                    bytes -> {
+//                                        onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+//                            });
+//                            break;
+//                        }
+//                    }
+//                }
+//            });
+
+            StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+            storageRef.child("LatestModels").child(String.format("%s_%s.png", loadingModel.getManufacturerName(), loadingModel.getName())).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
                 }
             });
         }
