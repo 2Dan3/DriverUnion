@@ -27,14 +27,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ChassisSelectionFragment extends Fragment {
-    private static final String ESTATE = "estate";
-    private static final String SEDAN = "sedan";
-    private static final String HATCHBACK = "hatchback";
-    private static final String COUPE = "coupe";
-    private static final String SUV = "suv";
-    private static final String MPV = "mpv";
-    private static final String PICKUP = "pickup";
-    private static final String[] AVAILABLE_CHASSIS_SHAPES = new String[]{ESTATE, SEDAN, HATCHBACK, COUPE, SUV, MPV, PICKUP};
+    public static final String ESTATE = "estate";
+    public static final String SEDAN = "sedan";
+    public static final String HATCHBACK = "hatchback";
+    public static final String CABRIOLET = "cabriolet";
+    public static final String FASTBACK = "fastback";
+    public static final String COUPE = "coupe";
+    public static final String SUV = "suv";
+    public static final String MPV = "mpv";
+    public static final String PICKUP = "pickup";
+    private static final String[] AVAILABLE_CHASSIS_SHAPES = new String[]{ESTATE, SEDAN, HATCHBACK, CABRIOLET, FASTBACK, COUPE, SUV, MPV, PICKUP};
     private static final String MANUFACTURER = "manufacturer_name";
     private String manufacturerName;
     private static final String MODEL = "model_name";

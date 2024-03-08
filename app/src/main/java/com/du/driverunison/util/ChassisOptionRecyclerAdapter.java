@@ -1,5 +1,15 @@
 package com.du.driverunison.util;
 
+import static com.du.driverunison.ChassisSelectionFragment.CABRIOLET;
+import static com.du.driverunison.ChassisSelectionFragment.COUPE;
+import static com.du.driverunison.ChassisSelectionFragment.ESTATE;
+import static com.du.driverunison.ChassisSelectionFragment.FASTBACK;
+import static com.du.driverunison.ChassisSelectionFragment.HATCHBACK;
+import static com.du.driverunison.ChassisSelectionFragment.MPV;
+import static com.du.driverunison.ChassisSelectionFragment.PICKUP;
+import static com.du.driverunison.ChassisSelectionFragment.SEDAN;
+import static com.du.driverunison.ChassisSelectionFragment.SUV;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,26 +79,32 @@ public class ChassisOptionRecyclerAdapter extends RecyclerView.Adapter<ChassisOp
 
             tvChassisName.setText(loadingChassisOption);
             switch (loadingChassisOption){
-                case "estate":
+                case ESTATE:
                     ivChassisShape.setImageResource(R.mipmap.car_estate_shape);
                     break;
-                case "hatchback":
+                case HATCHBACK:
                     ivChassisShape.setImageResource(R.mipmap.car_hb_shape);
                     break;
-                case "sedan":
+                case SEDAN:
                     ivChassisShape.setImageResource(R.mipmap.car_sedan_shape);
                     break;
-                case "coupe":
+                case COUPE:
                     ivChassisShape.setImageResource(R.mipmap.car_coupe_shape);
                     break;
-                case "suv":
+                case SUV:
                     ivChassisShape.setImageResource(R.mipmap.car_suv_shape);
                     break;
-                case "mpv":
+                case MPV:
                     ivChassisShape.setImageResource(R.mipmap.car_mpv_shape);
                     break;
-                case "pickup":
+                case PICKUP:
                     ivChassisShape.setImageResource(R.mipmap.car_pickup_shape);
+                    break;
+                case FASTBACK:
+                    ivChassisShape.setImageResource(R.mipmap.car_fb_shape);
+                    break;
+                case CABRIOLET:
+                    ivChassisShape.setImageResource(R.mipmap.car_cabrio_shape);
                     break;
             }
         }
