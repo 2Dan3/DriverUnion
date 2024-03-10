@@ -55,7 +55,7 @@ public class CarManufacturerRecyclerAdapter extends RecyclerView.Adapter<CarManu
     }
     @Override
     public int getItemCount() {
-        return manufacturers.size();
+        return manufacturers == null ? 0 : manufacturers.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements FetchImageTask.FetchImageTaskCallback{

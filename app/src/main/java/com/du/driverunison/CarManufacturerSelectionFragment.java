@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.util.CarManufacturerRecyclerAdapter;
@@ -39,6 +40,13 @@ public class CarManufacturerSelectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        this.manufacturers = new ArrayList<>();
+//        getCarManufacturers();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         this.manufacturers = new ArrayList<>();
         getCarManufacturers();
     }
@@ -59,7 +67,7 @@ public class CarManufacturerSelectionFragment extends Fragment {
     }
 
     private void getCarManufacturers() {
-
+        Toast.makeText(getContext(), "getCarManufacturers", Toast.LENGTH_SHORT).show();
         DatabaseReference manufacturersRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("brands");
         manufacturersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
