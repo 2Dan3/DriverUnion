@@ -25,13 +25,13 @@ public class CarDetailedActivity extends FragmentActivity {
     public static final String MAKER_NAME = "maker_name";
     public static final String MODEL_NAME = "model_name";
     public static final String CHASSIS_SHAPE = "chassis_shape";
-    public static final String YEARS_OF_MANUFACTURE_RANGE = "years";
+    public static final String TARGET_YEARS_OF_MANUFACTURE_RANGE = "years";
     public static final String EXISTING_GEN_YEAR_SPANS = "gens";
 
     private String makerName;
     private String modelName;
     private String chassisShape;
-    private String yearsRange;
+    private String targetYearsRange;
     private ArrayList<String> existingGenYearSpans;
     private ViewPager2 viewPager;
     private ScreenSlidePagerAdapter pagerAdapter;
@@ -54,7 +54,7 @@ public class CarDetailedActivity extends FragmentActivity {
         this.makerName = args.getString(MAKER_NAME, "N/A");
         this.modelName = args.getString(MODEL_NAME, "N/A");
         this.chassisShape = args.getString(CHASSIS_SHAPE, "N/A");
-        this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
+        this.targetYearsRange = args.getString(TARGET_YEARS_OF_MANUFACTURE_RANGE, null);
         this.existingGenYearSpans = args.getStringArrayList(EXISTING_GEN_YEAR_SPANS);
 
 //       TODO check NAV & del auto-gen fragments (First- & Second-)
@@ -86,6 +86,18 @@ public class CarDetailedActivity extends FragmentActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                updateUI(position);
+            }
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                updateUI(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+            private void updateUI(int position) {
                 if (existingGenYearSpans.size() > 1){
                     if (position == 0){
                         layoutPrevGen.setVisibility(View.INVISIBLE);
@@ -96,20 +108,12 @@ public class CarDetailedActivity extends FragmentActivity {
                         layoutPrevGen.setVisibility(View.VISIBLE);
                         tvPrevGen.setText(existingGenYearSpans.get(position - 1));
                     }else {
-                        layoutPrevGen.setVisibility(View.VISIBLE);
                         tvPrevGen.setText(existingGenYearSpans.get(position - 1));
-                        layoutNextGen.setVisibility(View.VISIBLE);
+                        layoutPrevGen.setVisibility(View.VISIBLE);
                         tvNextGen.setText(existingGenYearSpans.get(position + 1));
+                        layoutNextGen.setVisibility(View.VISIBLE);
                     }
                 }
-            }
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
             }
         });
         TabLayout tabLayout = binding.tabLayoutCarDetailed;
@@ -118,8 +122,9 @@ public class CarDetailedActivity extends FragmentActivity {
         });
         tlm.attach();
 
-//        Initially the newest gen of model is displayed
-        viewPager.setCurrentItem(existingGenYearSpans.size() - 1, false);
+//        Initially the newest gen of model is displayed, unless pre-requested otherwise from CarDetailedActivity Intent
+        int targetCarGenerationItem = targetYearsRange == null ? existingGenYearSpans.size() - 1 : existingGenYearSpans.indexOf(targetYearsRange);
+        viewPager.setCurrentItem(targetCarGenerationItem, false);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStateAdapter {

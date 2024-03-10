@@ -4,7 +4,7 @@ import static com.du.driverunison.CarDetailedActivity.CHASSIS_SHAPE;
 import static com.du.driverunison.CarDetailedActivity.EXISTING_GEN_YEAR_SPANS;
 import static com.du.driverunison.CarDetailedActivity.MAKER_NAME;
 import static com.du.driverunison.CarDetailedActivity.MODEL_NAME;
-import static com.du.driverunison.CarDetailedActivity.YEARS_OF_MANUFACTURE_RANGE;
+import static com.du.driverunison.CarDetailedActivity.TARGET_YEARS_OF_MANUFACTURE_RANGE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,9 +102,6 @@ public class ChassisSelectionFragment extends Fragment {
         int position = viewHolder.getAdapterPosition();
         String selectedChassisShape = adapter.getChassisOption(position);
 
-//        Todo fix : temporary test values for "years", refactor when real years are chosen from UI
-        String selectedManufactureYears = "M3".equals(modelName) ? "2007-2013" : "6".equals(modelName) ? "2018-" : "3".equals(modelName) ? "2019-2024" : "CX-60".equals(modelName) ? "2022-" : "X5 M".equals(modelName) ? "2023-" : "Giulia".equals(modelName) ? "2022-" : "N/A";
-
         DatabaseReference gensRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(manufacturerName).child(modelName).child(selectedChassisShape);
         gensRef.addListenerForSingleValueEvent(new ValueEventListener() {
             ArrayList<String> genYearSpans = new ArrayList<>();
@@ -122,7 +119,7 @@ public class ChassisSelectionFragment extends Fragment {
                     args.putString(MAKER_NAME, manufacturerName);
                     args.putString(MODEL_NAME, modelName);
                     args.putString(CHASSIS_SHAPE, selectedChassisShape);
-                    args.putString(YEARS_OF_MANUFACTURE_RANGE, selectedManufactureYears);
+//                    args.putString(TARGET_YEARS_OF_MANUFACTURE_RANGE, null);
                     args.putStringArrayList(EXISTING_GEN_YEAR_SPANS, genYearSpans);
 
                     detailedCarViewIntent.putExtras(args);
