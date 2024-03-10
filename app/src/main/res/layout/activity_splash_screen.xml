@@ -11,7 +11,7 @@
         android:layout_marginBottom="100dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:src="@mipmap/car_default_filler" />
+        android:src="@mipmap/car_default_app" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
