@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Driver Unison</string>
+    <string name="app_name">Driver Union</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -65,4 +65,9 @@
     <string name="detailed_model_trunk_filler">477 - 1726 L</string>
     <string name="engine_manual">Manual</string>
     <string name="engine_automatic">Automatic</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_forums">Forum</string>
+    <string name="title_cars">Cars</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
