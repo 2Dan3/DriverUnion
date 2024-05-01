@@ -9,9 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -19,14 +22,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.du.driverunison.model.CarGeneralSpecs;
 import com.du.driverunison.model.CarSafetySpecs;
-import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.util.FetchImageTask;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -49,9 +51,10 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
     private String chassisShape;
     private String yearsRange;
     private ImageView ivCarMaker;
-    private ViewPager2 viewPager;
+    private ViewPager2 modelImagePager;
+    private ViewPager modelDataPager;
+    private TabLayout modelDataTabLayout;
     private CarDetailedFragment.ScreenSlidePagerAdapter pagerAdapter;
-    private TabLayout layoutTabbed;
     private CarGeneralSpecs carGeneralSpecs;
     private CarSafetySpecs carSafetySpecs;
     private DialogEngines dialogEngines;
@@ -79,8 +82,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             this.modelName = args.getString(MODEL_NAME, "N/A");
             this.chassisShape = args.getString(CHASSIS_SHAPE, "N/A");
             this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
-
-            loadModelGeneralSpecs();
 //            loadModelImage();
             loadModelSafetyRatings();
         }
@@ -103,19 +104,6 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         }
     }
 
-    private void loadModelGeneralSpecs() {
-        DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("general specs");
-        fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot fullModelSpecSnap) {
-                carGeneralSpecs = fullModelSpecSnap.getValue(CarGeneralSpecs.class);
-                setupUI(getView());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
 //    private void loadModelImage() {
 ////        new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
 //
@@ -143,16 +131,44 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_car_detailed, container, false);
 
+        setupImages(v);
+
+        setupDataSpecs(v);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupUI(view);
+    }
+
+    private void setupDataSpecs(View v) {
+        TabPagerAdapter adapter = new TabPagerAdapter(CarDetailedFragment.this);
+        modelDataPager = v.findViewById(R.id.pager_car_data);
+        modelDataPager.setAdapter(adapter);
+        modelDataTabLayout = v.findViewById(R.id.tab_layout_car_data);
+
+        modelDataTabLayout.setupWithViewPager(modelDataPager);
+
+//        Set up with Tab Icons
+        for (int i = 0; i < modelDataTabLayout.getTabCount(); i++) {
+            modelDataTabLayout.getTabAt(i).setIcon(adapter.getIcon(i));
+        }
+    }
+
+    private void setupImages(View v) {
         ivCarMaker = v.findViewById(R.id.iv_distributor_logo);
+        ivCarMaker.setAlpha(145);
         loadManufacturerImage();
 
-        layoutTabbed = v.findViewById(R.id.tab_layout_car_images);
         // Instantiate a ViewPager2 and a PagerAdapter.
-        viewPager = v.findViewById(R.id.pager_car_images);
+        modelImagePager = v.findViewById(R.id.pager_car_images);
 //        Check line:
         pagerAdapter = new ScreenSlidePagerAdapter(getActivity());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        modelImagePager.setAdapter(pagerAdapter);
+        modelImagePager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -168,60 +184,40 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
         });
         TabLayout tabLayout = v.findViewById(R.id.tab_layout_car_images);
-        TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+        TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, modelImagePager, (tab, position) -> {
 
         });
         tlm.attach();
 
 //        Initially the exterior front of model is displayed (1st image)
-        viewPager.setCurrentItem(0, false);
-
-        return v;
+        modelImagePager.setCurrentItem(0, false);
     }
 
     private void setupUI(View view) {
+        CardView cardDistributor;
 
-        CardView cardDistributor,
+        FloatingActionButton
                 cardUsedCars,
                 cardCarParts,
-                cardPowertrains,
+//                cardPowertrains,
                 cardForum;
 
-        if (view != null) {
-//            ivCarModel = view.findViewById(R.id.detailed_model_iv);
-            ((TextView) view.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
-            ((TextView) view.findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
-            ((TextView) view.findViewById(R.id.detailed_model_length)).setText(carGeneralSpecs.length);
-            ((TextView) view.findViewById(R.id.detailed_model_width)).setText(carGeneralSpecs.width);
-            ((TextView) view.findViewById(R.id.detailed_model_height)).setText(carGeneralSpecs.height);
-            ((TextView) view.findViewById(R.id.detailed_model_wheelbase)).setText(carGeneralSpecs.wheelbase);
-            ((TextView) view.findViewById(R.id.detailed_model_trunk)).setText(carGeneralSpecs.trunk);
-            cardDistributor = view.findViewById(R.id.card_distributor);
-            cardUsedCars = view.findViewById(R.id.card_used_cars);
-            cardCarParts = view.findViewById(R.id.card_car_parts);
-            cardPowertrains = view.findViewById(R.id.card_powertrains);
-            cardForum = view.findViewById(R.id.card_forums);
-        }
-        else {
-//            ivCarModel = getActivity().findViewById(R.id.detailed_model_iv);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
-            ((TextView)getActivity().findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_length)).setText(carGeneralSpecs.length);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_width)).setText(carGeneralSpecs.width);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_height)).setText(carGeneralSpecs.height);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_wheelbase)).setText(carGeneralSpecs.wheelbase);
-            ((TextView)getActivity().findViewById(R.id.detailed_model_trunk)).setText(carGeneralSpecs.trunk);
-            cardDistributor = getActivity().findViewById(R.id.card_distributor);
-            cardUsedCars = getActivity().findViewById(R.id.card_used_cars);
-            cardCarParts = getActivity().findViewById(R.id.card_car_parts);
-            cardPowertrains = getActivity().findViewById(R.id.card_powertrains);
-            cardForum = getActivity().findViewById(R.id.card_forums);
-        }
-
+//        ivCarModel = view.findViewById(R.id.detailed_model_iv);
+        ((TextView) view.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
+        ((TextView) view.findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
+//        ((TextView) view.findViewById(R.id.detailed_model_length)).setText(carGeneralSpecs.length);
+//        ((TextView) view.findViewById(R.id.detailed_model_width)).setText(carGeneralSpecs.width);
+//        ((TextView) view.findViewById(R.id.detailed_model_height)).setText(carGeneralSpecs.height);
+//        ((TextView) view.findViewById(R.id.detailed_model_wheelbase)).setText(carGeneralSpecs.wheelbase);
+//        ((TextView) view.findViewById(R.id.detailed_model_trunk)).setText(carGeneralSpecs.trunk);
+        cardDistributor = view.findViewById(R.id.card_distributor);
+        cardUsedCars = view.findViewById(R.id.card_used_cars);
+        cardCarParts = view.findViewById(R.id.card_car_parts);
+        cardForum = view.findViewById(R.id.card_forums);
+//        cardPowertrains = view.findViewById(R.id.card_powertrains);
         cardDistributor.setOnClickListener(this::toNewCarsSeller);
         cardUsedCars.setOnClickListener(this::toUsedCarsSeller);
         cardCarParts.setOnClickListener(this::toCarPartsSeller);
-        cardPowertrains.setOnClickListener(this::onClickShowEngines);
         cardForum.setOnClickListener(this::toForum);
     }
 
@@ -258,12 +254,12 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         viewSafetyRating.setVisibility(View.VISIBLE);
         viewSafetyRating.setOnClickListener(this::onClickShowSafetyRatingsDetailed);
     }
-    private void onClickShowEngines(View v) {
-        if (dialogEngines == null)
-            dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
-
-        dialogEngines.show();
-    }
+//    private void onClickShowEngines(View v) {
+//        if (dialogEngines == null)
+//            dialogEngines = new DialogEngines(getContext(), makerName, modelName, chassisShape, yearsRange);
+//
+//        dialogEngines.show();
+//    }
     private void onClickShowSafetyRatingsDetailed(View v) {
         if (dialogSafetySpecs == null)
             dialogSafetySpecs = new DialogSafetySpecs(getContext(), carSafetySpecs);
@@ -299,8 +295,41 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //        Todo
     }
     public void onResultReceived(Bitmap result) {
-        if (result != null && ivCarMaker != null) {
+        if (result != null && ivCarMaker != null)
             ivCarMaker.setImageBitmap(result);
+    }
+
+    private class TabPagerAdapter extends FragmentStatePagerAdapter {
+        private final String[] titles = {getString(R.string.vehicle_dimensions), getString(R.string.vehicle_motors)};
+        private final int[] iconsRes = {R.drawable.ic_car_dimen, R.drawable.ic_engine_block};
+        private CarDetailedFragment fragment;
+
+        public TabPagerAdapter(CarDetailedFragment frag) {
+            super(frag.getActivity().getSupportFragmentManager());
+            fragment = frag;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0:
+                    return CarDimensionsFragment.newInstance(makerName, modelName, chassisShape, yearsRange);
+                case 1:
+                    return MotorsFragment.newInstance(makerName, modelName, chassisShape, yearsRange);
+                default:
+                    return null;
+            }
+        }
+        @Override
+        public int getCount() {
+            return 2;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+        public int getIcon(int i) {
+            return iconsRes[i];
         }
     }
 }

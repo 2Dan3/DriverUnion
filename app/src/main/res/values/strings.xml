@@ -16,6 +16,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="vehicle_dimensions">Dimensions</string>
+    <string name="vehicle_motors">Motors</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -70,4 +72,11 @@
     <string name="title_cars">Cars</string>
     <string name="title_profile">Profile</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="not_selected">❌</string>
+    <string name="selected">✅</string>
+    <string name="car_used">Used cars</string>
+    <string name="car_parts">Car parts</string>
+    <string name="car_forum">Forum</string>
+    <string name="car_distributor">New cars</string>
+    <string name="car_new">New cars</string>
 </resources>

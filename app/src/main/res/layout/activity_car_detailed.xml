@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_gravity="top"
-            app:tabBackground="@drawable/tab_pager_selector"
+            app:tabBackground="@drawable/tab_pager_selector_circle"
             app:tabGravity="center"
             android:background="@android:color/transparent"
             app:tabIndicatorHeight="0dp"
