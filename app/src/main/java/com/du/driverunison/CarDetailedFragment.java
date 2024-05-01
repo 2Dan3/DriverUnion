@@ -1,5 +1,7 @@
 package com.du.driverunison;
 
+import static com.du.driverunison.CarImageFragment.IMAGE_ANGLES;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,18 +11,25 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.du.driverunison.model.CarGeneralSpecs;
 import com.du.driverunison.model.CarSafetySpecs;
+import com.du.driverunison.model.Manufacturer;
 import com.du.driverunison.util.FetchImageTask;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,11 +43,15 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
     public static final String MODEL_NAME = "model_name";
     public static final String CHASSIS_SHAPE = "chassis_shape";
     public static final String YEARS_OF_MANUFACTURE_RANGE = "years";
+    private static final int IMAGES_TOTAL_PER_CAR = IMAGE_ANGLES.length;
     private String makerName;
     private String modelName;
     private String chassisShape;
     private String yearsRange;
-    private ImageView ivCarModel;
+    private ImageView ivCarMaker;
+    private ViewPager2 viewPager;
+    private CarDetailedFragment.ScreenSlidePagerAdapter pagerAdapter;
+    private TabLayout layoutTabbed;
     private CarGeneralSpecs carGeneralSpecs;
     private CarSafetySpecs carSafetySpecs;
     private DialogEngines dialogEngines;
@@ -68,8 +81,25 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             this.yearsRange = args.getString(YEARS_OF_MANUFACTURE_RANGE, "N/A");
 
             loadModelGeneralSpecs();
-            loadModelImage();
+//            loadModelImage();
             loadModelSafetyRatings();
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+        public ScreenSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return CarImageFragment.newInstance(makerName, modelName, chassisShape, yearsRange, position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return IMAGES_TOTAL_PER_CAR;
         }
     }
 
@@ -86,13 +116,13 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             }
         });
     }
-    private void loadModelImage() {
-//        new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
-
-        StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
-        storageRef.child(makerName).child(String.format("%s_%s_%s_%s.png", makerName, modelName, chassisShape, yearsRange)).getBytes(Long.MAX_VALUE).addOnSuccessListener(
-                bytes -> onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length)));
-    }
+//    private void loadModelImage() {
+////        new FetchImageTask(this).execute(makerName, modelName, chassisShape, yearsRange);
+//
+//        StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+//        storageRef.child(makerName).child(String.format("%s_%s_%s_%s.png", makerName, modelName, chassisShape, yearsRange)).getBytes(Long.MAX_VALUE).addOnSuccessListener(
+//                bytes -> onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length)));
+//    }
     private void loadModelSafetyRatings() {
         DatabaseReference fullModelSpecRef = FirebaseDatabase.getInstance("https://driver-union-1753f-default-rtdb.europe-west1.firebasedatabase.app/").getReference("cars").child("models").child(makerName).child(modelName).child(chassisShape).child(yearsRange).child("safety");
         fullModelSpecRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -113,39 +143,52 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_car_detailed, container, false);
 
-//        setupUI(v);
-        ((TextView)v.findViewById(R.id.detailed_model_years)).setText(yearsRange);
-        ((TextView) v.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
+        ivCarMaker = v.findViewById(R.id.iv_distributor_logo);
+        loadManufacturerImage();
+
+        layoutTabbed = v.findViewById(R.id.tab_layout_car_images);
+        // Instantiate a ViewPager2 and a PagerAdapter.
+        viewPager = v.findViewById(R.id.pager_car_images);
+//        Check line:
+        pagerAdapter = new ScreenSlidePagerAdapter(getActivity());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+
+        });
+        TabLayout tabLayout = v.findViewById(R.id.tab_layout_car_images);
+        TabLayoutMediator tlm = new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+
+        });
+        tlm.attach();
+
+//        Initially the exterior front of model is displayed (1st image)
+        viewPager.setCurrentItem(0, false);
 
         return v;
     }
 
     private void setupUI(View view) {
-//        todo temporary workaround refactor, having implemented real images fetch from img-server
-//          binding.detailedModelIv.setImageURI();
-        int imgManufacturerRes;
-        switch (this.makerName){
-            case "BMW":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo2;
-                break;
-            case "Alfa Romeo":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo7;
-                break;
-            case "Mazda":
-                imgManufacturerRes = R.mipmap.car_manufacturer_logo;
-                break;
-            default:
-                imgManufacturerRes = R.mipmap.car_coupe_shape;
-        }
 
         CardView cardDistributor,
                 cardUsedCars,
                 cardCarParts,
                 cardPowertrains,
                 cardForum;
+
         if (view != null) {
-            ivCarModel = view.findViewById(R.id.detailed_model_iv);
-            ((ImageView) view.findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
+//            ivCarModel = view.findViewById(R.id.detailed_model_iv);
             ((TextView) view.findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView) view.findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
             ((TextView) view.findViewById(R.id.detailed_model_length)).setText(carGeneralSpecs.length);
@@ -160,8 +203,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
             cardForum = view.findViewById(R.id.card_forums);
         }
         else {
-            ivCarModel = getActivity().findViewById(R.id.detailed_model_iv);
-            ((ImageView)getActivity().findViewById(R.id.iv_distributor_logo)).setImageResource(imgManufacturerRes);
+//            ivCarModel = getActivity().findViewById(R.id.detailed_model_iv);
             ((TextView)getActivity().findViewById(R.id.detailed_model_name)).setText(String.format("%s %s (%s)", this.makerName, this.modelName, this.chassisShape));
             ((TextView)getActivity().findViewById(R.id.detailed_model_years)).setText(this.yearsRange);
             ((TextView)getActivity().findViewById(R.id.detailed_model_length)).setText(carGeneralSpecs.length);
@@ -182,6 +224,19 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
         cardPowertrains.setOnClickListener(this::onClickShowEngines);
         cardForum.setOnClickListener(this::toForum);
     }
+
+    private void loadManufacturerImage() {
+//        new FetchImageTask(this).execute(makerName);
+
+        StorageReference storageRef = FirebaseStorage.getInstance("gs://driver-union-1753f.appspot.com").getReference();
+        storageRef.child(makerName).child(String.format("%s.png", makerName)).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                onResultReceived(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            }
+        });
+    }
+
     private void showSafetyRatingOverall(View view) {
         ImageView[] ivSafetyRatingStars;
         View viewSafetyRating;
@@ -234,7 +289,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
     private void toNewCarsSeller(View v) {
 //        TODO change when real Official distributer URL loading is implemented
-        String websiteURL = makerName.equals("Mazda") ? "http://www.mazda.rs" : makerName.equals("BMW") ? "http://www.bmw.rs" : "http://www.alfaromeosrbija.rs";
+        String websiteURL = makerName.equals("Mazda") ? "http://www.mazda.rs" : makerName.equals("BMW") ? "http://www.bmw.rs" : makerName.equals("Alfa Romeo") ? "http://www.alfaromeosrbija.rs" : makerName.equals("Peugeot") ? "http://www.peugeot.rs" : "";
 
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteURL));
         startActivity(browserIntent);
@@ -244,8 +299,8 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 //        Todo
     }
     public void onResultReceived(Bitmap result) {
-        if (result != null && ivCarModel != null) {
-            ivCarModel.setImageBitmap(result);
+        if (result != null && ivCarMaker != null) {
+            ivCarMaker.setImageBitmap(result);
         }
     }
 }

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="#F7FCFF"
         app:cardCornerRadius="20dp">
 
         <LinearLayout
@@ -36,7 +36,8 @@
                 android:layout_marginStart="5sp"
                 android:layout_marginVertical="1sp"
                 android:textColor="@color/black_transparent"
-                android:text="2010-2013"/>
+                android:text="2010-2013"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -63,7 +64,8 @@
                 android:layout_marginEnd="5sp"
                 android:layout_marginVertical="1sp"
                 android:textColor="@color/black_transparent"
-                android:text="2019-2023"/>
+                android:text="2019-2023"
+                android:textStyle="bold"/>
             <ImageView
                 android:layout_width="19dp"
                 android:layout_height="20dp"
