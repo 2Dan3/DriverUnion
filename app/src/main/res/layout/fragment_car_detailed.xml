@@ -403,11 +403,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        fab:fab_addButtonColorNormal="@color/blue_light"
+        fab:fab_addButtonColorNormal="#DB2C86CF"
         fab:fab_addButtonColorPressed="@color/blue_light_2"
         fab:fab_addButtonPlusIconColor="@color/white"
-        fab:fab_addButtonSize="mini"
-        fab:fab_labelsPosition="left">
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelsPosition="left"
+        fab:fab_labelStyle="@style/menu_labels_style">
 <!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
 <!--            android:id="@+id/card_new_cars"-->
 <!--            android:layout_width="wrap_content"-->
@@ -423,8 +424,7 @@
             fab:fab_colorNormal="@color/black"
             fab:fab_title="@string/car_used"
             fab:fab_colorPressed="@color/black"
-            fab:fab_icon="@mipmap/used_cars_website"
-            fab:fab_size="normal"/>
+            fab:fab_icon="@mipmap/used_cars_website"/>
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/card_car_parts"
             android:layout_width="wrap_content"
@@ -432,8 +432,7 @@
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/car_parts"
             fab:fab_colorPressed="@color/white"
-            fab:fab_icon="@mipmap/car_parts_website"
-            fab:fab_size="normal"/>
+            fab:fab_icon="@mipmap/car_parts_website"/>
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/card_forums"
             android:layout_width="wrap_content"
@@ -441,8 +440,7 @@
             fab:fab_colorNormal="@color/white"
             fab:fab_title="@string/car_forum"
             fab:fab_colorPressed="@color/white"
-            fab:fab_icon="@mipmap/ic_forums"
-            fab:fab_size="normal"/>
+            fab:fab_icon="@mipmap/ic_forums"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>

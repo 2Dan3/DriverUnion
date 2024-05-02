@@ -160,7 +160,7 @@ public class CarDetailedFragment extends Fragment implements FetchImageTask.Fetc
 
     private void setupImages(View v) {
         ivCarMaker = v.findViewById(R.id.iv_distributor_logo);
-        ivCarMaker.setAlpha(145);
+        ivCarMaker.setAlpha(200);
         loadManufacturerImage();
 
         // Instantiate a ViewPager2 and a PagerAdapter.
