@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="initial_slider_year_values">
+        <item>45</item>
+        <item>54</item>
+    </array>
+    <array name="initial_slider_power_values">
+        <item>3</item>
+        <item>7</item>
+    </array>
+    <array name="initial_slider_displacement_values">
+        <item>4</item>
+        <item>17</item>
+    </array>
+</resources>
